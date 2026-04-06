@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Kontrolny BDO - Auto-Ładnex</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --blue: #3498db;
+            --green: #27ae60;
+            --orange: #f39c12;
+            --red: #e74c3c;
+            --purple: #8e44ad;
+            --cyan: #00bcd4;
+            --light: #f4f7f6;
+        }
+
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--light); margin: 0; padding: 15px; color: #333; line-height: 1.6; }
+        .container { max-width: 550px; margin: auto; }
+        
+        .tile { 
+            background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 10px solid var(--primary);
+            transition: transform 0.2s;
+        }
+        .tile:active { transform: scale(0.98); }
+
+        /* Kolory kafelków */
+        .t-blue { border-left-color: var(--blue); }
+        .t-green { border-left-color: var(--green); }
+        .t-ok { border-left-color: var(--green); background-color: #fafffa; }
+        .t-purple { border-left-color: var(--purple); }
+        .t-orange { border-left-color: var(--orange); }
+        .t-red { border-left-color: var(--red); background-color: #fff9f9; }
+        .t-cyan { border-left-color: var(--cyan); background-color: #f0fbff; }
+
+        h2 { margin: 0 0 12px 0; font-size: 1.15rem; display: flex; align-items: center; color: var(--primary); text-transform: uppercase; }
+        h2 span { margin-right: 10px; font-size: 1.4rem; }
+
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+        .data-table td { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .data-table td:first-child { font-weight: bold; color: #7f8c8d; width: 45%; }
+
+        .code-box { background: #2c3e50; color: #ecf0f1; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.85rem; margin-top: 10px; overflow-x: auto; }
+        
+        .alert { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin: 10px 0; }
+        .alert-danger { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
+
+        .btn-action { 
+            display: inline-flex; align-items: center; justify-content: center; 
+            background: var(--red); color: white; padding: 12px 18px; border-radius: 10px; 
+            text-decoration: none; font-weight: bold; margin-top: 10px; width: 100%; box-sizing: border-box;
+        }
+        .btn-repo { background: #34495e; }
+
+        .check-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 0.9rem; }
+        input[type="checkbox"], input[type="radio"] { margin-right: 12px; margin-top: 4px; transform: scale(1.2); }
+
+        .footer { text-align: center; font-size: 0.8rem; color: #95a5a6; margin: 30px 0; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1 style="text-align: center; color: var(--primary); margin-bottom: 25px;">⚙️ System BDO Auto-Ładnex</h1>
+
+    <div class="tile t-blue">
+        <h2><span>🆔</span> Dane Podmiotu</h2>
+        <table class="data-table">
+            <tr><td>Nazwa:</td><td>Auto-Ładnex Piotr Ładnowski</td></tr>
+            <tr><td>Nr BDO:</td><td><strong>000159648</strong></td></tr>
+            <tr><td>NIP:</td><td>5321134505</td></tr>
+            <tr><td>Wpis:</td><td>Dział XII (Wytwórca)</td></tr>
+        </table>
+        <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Lokalizacja: Otwock, ul. Batalionów Chłopskich 1</p>
+    </div>
+
+    <div class="tile t-ok">
+        <h2><span>✅</span> Opłata Produktowa: 0 PLN</h2>
+        <div style="font-size: 0.9rem;">
+            <strong>Stan faktyczny:</strong>
+            <ul style="padding-left: 20px; margin-top: 5px;">
+                <li>Zakupy wyłącznie u <strong>polskich dystrybutorów</strong> (np. Castorama, Orlen).</li>
+                <li>Brak bezpośredniego importu produktów/chemii z UE/świata.</li>
+                <li>Naprawy wyłącznie "in situ" - brak wysyłek towaru w opakowaniach.</li>
+            </ul>
+        </div>
+        <div class="alert alert-danger">
+            <strong>⚠️ ZMIANA MODELU:</strong> Jeśli zaczniesz importować części samodzielnie lub wysyłać paczki – powstaną obowiązki opłaty produktowej i opakowaniowej!
+        </div>
+    </div>
+
+    <div class="tile t-red">
+        <h2><span>⚠️</span> Karty Charakterystyki</h2>
+        <p style="font-size: 0.85rem;">Zgodność z rozporządzeniem <strong>UE 2020/878</strong>.</p>
+        
+        <div style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+            <strong>Olej Silnikowy ORLEN</strong><br>
+            <small>Karta dostępna w pamięci telefonu po pobraniu.</small><br>
+            <a href="https://github.com/TWOJA_NAZWA/REPO/raw/main/orlen-olej.pdf" target="_blank" class="btn-action">📄 POBIERZ KARTĘ PDF</a>
+        </div>
+
+        <a href="https://github.com/TWOJA_NAZWA/REPO" target="_blank" class="btn-action btn-repo">📁 PRZEGLĄDAJ REPOZYTORIUM</a>
+    </div>
+
+    <div class="tile t-green">
+        <h2><span>📋</span> Odpady i Limity</h2>
+        <div class="code-box">
+            13 02 05* (Oleje siln.)<br>
+            16 01 07* (Filtry olej.)<br>
+            15 02 02* (Czyściwa/Sorbenty)<br>
+            16 01 03 (Zużyte opony)<br>
+            16 06 01* (Akumulatory Pb)
+        </div>
+        <div class="alert">
+            <strong>LIMIT BEZ POZWOLENIA:</strong><br>
+            • Odpady niebezpieczne (*): do 1 t/rok<br>
+            • Odpady inne: do 5 t/rok
+        </div>
+    </div>
+
+    <div class="tile t-purple">
+        <h2><span>📦</span> Strefa Magazynowania</h2>
+        <div class="check-item"><input type="checkbox" checked> Odpady niebezpieczne na tacach ociekowych.</div>
+        <div class="check-item"><input type="checkbox" checked> <strong>Materiały warsztatowe:</strong> Czyste, niezmieszane z odpadami.</div>
+        <div class="check-item"><input type="checkbox" checked> Pojemniki opisane kodem i nazwą odpadu.</div>
+    </div>
+
+    <div class="tile t-orange">
+        <h2><span>♻️</span> Odpady Komunalne (Bytowe)</h2>
+        <div class="check-item"><input type="checkbox" checked> Frakcje wydzielone (Papier, Plastik, Szkło).</div>
+        <div class="check-item"><input type="checkbox" checked> Pojemniki opisane, bez przepełnień.</div>
+        <div class="check-item"><input type="checkbox" checked> <strong>Umowa wywozowa:</strong> Dostępna w biurze.</div>
+    </div>
+
+    <div class="tile t-cyan">
+        <h2><span>🌱</span> Cele Środowiskowe 2026</h2>
+        <p style="font-size: 0.9rem;"><strong>Cel:</strong> Redukcja masy odpadu 15 02 02* (czyściwa).</p>
+        <div class="info-box">
+            <strong>Działanie:</strong> Wprowadzenie sorbentu mineralnego przy zlewarkach. Sorbent jest wydajniejszy niż szmaty, co obniża roczną wagę odpadu niebezpiecznego w BDO.
+        </div>
+    </div>
+
+    <div class="tile">
+        <h2><span>📝</span> Pytania / Raport Dnia</h2>
+        <div style="font-size: 0.95rem;">
+            <label class="check-item"><input type="checkbox"> Czy przyjechał towar z zagranicy? (IMPORT)</label>
+            <label class="check-item"><input type="checkbox"> Czy mechanik uzupełnił stan sorbentu?</label>
+            <label class="check-item"><input type="checkbox"> Czy beczka na olej ma > 10 cm luzu?</label>
+            <p style="margin-top: 10px;">Inne uwagi:</p>
+            <textarea style="width: 100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;" rows="2"></textarea>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 Auto-Ładnex | Opracowano dla systemów BDO i BHP
+    </div>
+</div>
+
+</body>
+</html>
