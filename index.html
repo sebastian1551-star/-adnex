@@ -16,17 +16,14 @@
             --light: #f4f7f6;
         }
 
-        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: var(--light); margin: 0; padding: 15px; color: #333; line-height: 1.6; }
-        .container { max-width: 550px; margin: auto; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--light); margin: 0; padding: 15px; color: #333; line-height: 1.5; }
+        .container { max-width: 600px; margin: auto; }
         
         .tile { 
-            background: white; border-radius: 15px; padding: 20px; margin-bottom: 20px; 
+            background: white; border-radius: 15px; padding: 18px; margin-bottom: 20px; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-left: 10px solid var(--primary);
-            transition: transform 0.2s;
         }
-        .tile:active { transform: scale(0.98); }
 
-        /* Kolory kafelków */
         .t-blue { border-left-color: var(--blue); }
         .t-green { border-left-color: var(--green); }
         .t-ok { border-left-color: var(--green); background-color: #fafffa; }
@@ -35,126 +32,100 @@
         .t-red { border-left-color: var(--red); background-color: #fff9f9; }
         .t-cyan { border-left-color: var(--cyan); background-color: #f0fbff; }
 
-        h2 { margin: 0 0 12px 0; font-size: 1.15rem; display: flex; align-items: center; color: var(--primary); text-transform: uppercase; }
-        h2 span { margin-right: 10px; font-size: 1.4rem; }
+        h2 { margin: 0 0 10px 0; font-size: 1.1rem; display: flex; align-items: center; color: var(--primary); text-transform: uppercase; }
+        h2 span { margin-right: 10px; font-size: 1.3rem; }
 
-        .data-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
-        .data-table td { padding: 8px 0; border-bottom: 1px solid #eee; }
-        .data-table td:first-child { font-weight: bold; color: #7f8c8d; width: 45%; }
+        .data-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .data-table td { padding: 6px 0; border-bottom: 1px solid #eee; }
+        .data-table td:first-child { font-weight: bold; color: #7f8c8d; width: 40%; }
 
-        .code-box { background: #2c3e50; color: #ecf0f1; padding: 12px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 0.85rem; margin-top: 10px; overflow-x: auto; }
+        /* Styl listy kodów */
+        .waste-section { margin-top: 10px; padding: 8px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef; }
+        .waste-section h3 { margin: 0 0 5px 0; font-size: 0.85rem; color: var(--primary); border-bottom: 1px solid #ddd; }
+        .code-list { font-family: 'Courier New', monospace; font-size: 0.8rem; color: #2c3e50; word-break: break-all; }
+        .star { color: #e74c3c; font-weight: bold; }
+
+        .alert { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 10px; border-radius: 8px; font-size: 0.8rem; margin: 10px 0; }
         
-        .alert { background: #fff3cd; border: 1px solid #ffeeba; color: #856404; padding: 12px; border-radius: 8px; font-size: 0.85rem; margin: 10px 0; }
-        .alert-danger { background: #f8d7da; border-color: #f5c6cb; color: #721c24; }
-
         .btn-action { 
             display: inline-flex; align-items: center; justify-content: center; 
-            background: var(--red); color: white; padding: 12px 18px; border-radius: 10px; 
-            text-decoration: none; font-weight: bold; margin-top: 10px; width: 100%; box-sizing: border-box;
+            background: var(--red); color: white; padding: 10px; border-radius: 8px; 
+            text-decoration: none; font-weight: bold; margin-top: 10px; width: 100%; box-sizing: border-box; font-size: 0.9rem;
         }
-        .btn-repo { background: #34495e; }
 
-        .check-item { display: flex; align-items: flex-start; margin-bottom: 10px; font-size: 0.9rem; }
-        input[type="checkbox"], input[type="radio"] { margin-right: 12px; margin-top: 4px; transform: scale(1.2); }
-
-        .footer { text-align: center; font-size: 0.8rem; color: #95a5a6; margin: 30px 0; }
+        .footer { text-align: center; font-size: 0.75rem; color: #95a5a6; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1 style="text-align: center; color: var(--primary); margin-bottom: 25px;">⚙️ System BDO Auto-Ładnex</h1>
+    <h1 style="text-align: center; color: var(--primary); font-size: 1.3rem; margin-bottom: 20px;">⚙️ System BDO Auto-Ładnex</h1>
 
     <div class="tile t-blue">
-        <h2><span>🆔</span> Dane Podmiotu</h2>
+        <h2><span>🆔</span> Podmiot</h2>
         <table class="data-table">
-            <tr><td>Nazwa:</td><td>Auto-Ładnex Piotr Ładnowski</td></tr>
-            <tr><td>Nr BDO:</td><td><strong>000159648</strong></td></tr>
+            <tr><td>BDO:</td><td><strong>000159648</strong></td></tr>
             <tr><td>NIP:</td><td>5321134505</td></tr>
-            <tr><td>Wpis:</td><td>Dział XII (Wytwórca)</td></tr>
+            <tr><td>Status:</td><td>Dział XII (Wytwórca)</td></tr>
         </table>
-        <p style="font-size: 0.85rem; color: #7f8c8d; margin-top: 10px;">Lokalizacja: Otwock, ul. Batalionów Chłopskich 1</p>
     </div>
 
-    <div class="tile t-ok">
-        <h2><span>✅</span> Opłata Produktowa: 0 PLN</h2>
-        <div style="font-size: 0.9rem;">
-            <strong>Stan faktyczny:</strong>
-            <ul style="padding-left: 20px; margin-top: 5px;">
-                <li>Zakupy wyłącznie u <strong>polskich dystrybutorów</strong> (np. Castorama, Orlen).</li>
-                <li>Brak bezpośredniego importu produktów/chemii z UE/świata.</li>
-                <li>Naprawy wyłącznie "in situ" - brak wysyłek towaru w opakowaniach.</li>
-            </ul>
+    <div class="tile t-green">
+        <h2><span>📋</span> Katalog Odpadów (Twoje Kody)</h2>
+        
+        <div class="waste-section">
+            <h3>Olejowe i paliwa (13)</h3>
+            <div class="code-list">13 01 10*, 13 01 11*, 13 01 12*, 13 01 13*, 13 02 04*, 13 02 05*, 13 02 06*, 13 02 07*, 13 02 08*, 13 07 01*, 13 07 02*, 13 07 03*</div>
         </div>
-        <div class="alert alert-danger">
-            <strong>⚠️ ZMIANA MODELU:</strong> Jeśli zaczniesz importować części samodzielnie lub wysyłać paczki – powstaną obowiązki opłaty produktowej i opakowaniowej!
+
+        <div class="waste-section">
+            <h3>Rozpuszczalniki i opakowania (14 & 15)</h3>
+            <div class="code-list">14 06 03*, 14 06 05*, 15 01 01, 15 01 02, 15 01 03, 15 01 04, 15 01 05, 15 01 07, 15 01 10*, 15 01 11*, 15 02, 15 02 02*, 15 02 03</div>
+        </div>
+
+        <div class="waste-section">
+            <h3>Części samochodowe i płyny (16)</h3>
+            <div class="code-list">16 01 03, 16 01 07*, 16 01 08*, 16 01 10*, 16 01 12, 16 01 13*, 16 01 14*, 16 01 15, 16 01 17, 16 01 18, 16 01 19, 16 01 20, 16 01 21*, 16 01 22, 16 01 99</div>
+        </div>
+
+        <div class="waste-section">
+            <h3>Elektryka, baterie i inne (16, 17)</h3>
+            <div class="code-list">16 02 11*, 16 02 13*, 16 02 14, 16 02 15*, 16 02 16, 16 05 04*, 16 05 05, 16 06 01*, 16 06 02*, 16 06 03*, 16 06 04, 16 06 05, 16 80, 16 80 01, 17 01 07, 17 04 11, 17 09 04</div>
+        </div>
+
+        <div class="alert" style="margin-top: 15px; border-left: 4px solid #3498db;">
+            ℹ️ <strong>WAŻNE:</strong> Jeśli planujesz odbiór odpadu spoza tej listy, musisz najpierw złożyć <strong>wniosek aktualizacyjny w systemie BDO</strong>.
         </div>
     </div>
 
     <div class="tile t-red">
-        <h2><span>⚠️</span> Karty Charakterystyki</h2>
-        <p style="font-size: 0.85rem;">Zgodność z rozporządzeniem <strong>UE 2020/878</strong>.</p>
-        
-        <div style="margin-bottom: 15px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
-            <strong>Olej Silnikowy ORLEN</strong><br>
-            <small>Karta dostępna w pamięci telefonu po pobraniu.</small><br>
-            <a href="https://github.com/TWOJA_NAZWA/REPO/raw/main/orlen-olej.pdf" target="_blank" class="btn-action">📄 POBIERZ KARTĘ PDF</a>
-        </div>
-
-        <a href="https://github.com/TWOJA_NAZWA/REPO" target="_blank" class="btn-action btn-repo">📁 PRZEGLĄDAJ REPOZYTORIUM</a>
+        <h2><span>⚠️</span> Karty Charakterystyki (UE 2020/878)</h2>
+        <a href="https://github.com/sebastian1551-star/-adnex/raw/main/orlen-olej.pdf" target="_blank" class="btn-action">📄 OTWÓRZ PDF (ORLEN)</a>
+        <a href="https://github.com/sebastian1551-star/-adnex" target="_blank" class="btn-action" style="background: #34495e;">📁 REPOZYTORIUM GITHUB</a>
     </div>
 
-    <div class="tile t-green">
-        <h2><span>📋</span> Odpady i Limity</h2>
-        <div class="code-box">
-            13 02 05* (Oleje siln.)<br>
-            16 01 07* (Filtry olej.)<br>
-            15 02 02* (Czyściwa/Sorbenty)<br>
-            16 01 03 (Zużyte opony)<br>
-            16 06 01* (Akumulatory Pb)
-        </div>
-        <div class="alert">
-            <strong>LIMIT BEZ POZWOLENIA:</strong><br>
-            • Odpady niebezpieczne (*): do 1 t/rok<br>
-            • Odpady inne: do 5 t/rok
-        </div>
+    <div class="tile t-ok">
+        <h2><span>✅</span> Opłata Produktowa: 0 PLN</h2>
+        <p style="font-size: 0.85rem; margin: 0;">Zakupy w PL (Castorama/Hurtownie) = brak importu = brak opłat.</p>
     </div>
 
     <div class="tile t-purple">
         <h2><span>📦</span> Strefa Magazynowania</h2>
-        <div class="check-item"><input type="checkbox" checked> Odpady niebezpieczne na tacach ociekowych.</div>
-        <div class="check-item"><input type="checkbox" checked> <strong>Materiały warsztatowe:</strong> Czyste, niezmieszane z odpadami.</div>
-        <div class="check-item"><input type="checkbox" checked> Pojemniki opisane kodem i nazwą odpadu.</div>
-    </div>
-
-    <div class="tile t-orange">
-        <h2><span>♻️</span> Odpady Komunalne (Bytowe)</h2>
-        <div class="check-item"><input type="checkbox" checked> Frakcje wydzielone (Papier, Plastik, Szkło).</div>
-        <div class="check-item"><input type="checkbox" checked> Pojemniki opisane, bez przepełnień.</div>
-        <div class="check-item"><input type="checkbox" checked> <strong>Umowa wywozowa:</strong> Dostępna w biurze.</div>
+        <p style="font-size: 0.85rem; margin: 0;">• Odpady niebezpieczne (*) na tacach ociekowych.<br>• Zakaz mieszania odpadów z nowymi materiałami!</p>
     </div>
 
     <div class="tile t-cyan">
-        <h2><span>🌱</span> Cele Środowiskowe 2026</h2>
-        <p style="font-size: 0.9rem;"><strong>Cel:</strong> Redukcja masy odpadu 15 02 02* (czyściwa).</p>
-        <div class="info-box">
-            <strong>Działanie:</strong> Wprowadzenie sorbentu mineralnego przy zlewarkach. Sorbent jest wydajniejszy niż szmaty, co obniża roczną wagę odpadu niebezpiecznego w BDO.
-        </div>
+        <h2><span>🌱</span> Cel: "CZYSTE STANOWISKO"</h2>
+        <p style="font-size: 0.85rem; margin: 0;">Redukcja czyściw (15 02 02*) poprzez stosowanie sorbentu sypkiego.</p>
     </div>
 
-    <div class="tile">
-        <h2><span>📝</span> Pytania / Raport Dnia</h2>
-        <div style="font-size: 0.95rem;">
-            <label class="check-item"><input type="checkbox"> Czy przyjechał towar z zagranicy? (IMPORT)</label>
-            <label class="check-item"><input type="checkbox"> Czy mechanik uzupełnił stan sorbentu?</label>
-            <label class="check-item"><input type="checkbox"> Czy beczka na olej ma > 10 cm luzu?</label>
-            <p style="margin-top: 10px;">Inne uwagi:</p>
-            <textarea style="width: 100%; border-radius: 8px; border: 1px solid #ccc; padding: 10px;" rows="2"></textarea>
-        </div>
+    <div class="tile t-orange">
+        <h2><span>♻️</span> Odpady Bytowe</h2>
+        <p style="font-size: 0.85rem; margin: 0;">Frakcje wydzielone. Umowa wywozowa dostępna w biurze.</p>
     </div>
 
     <div class="footer">
-        © 2026 Auto-Ładnex | Opracowano dla systemów BDO i BHP
+        © 2026 Auto-Ładnex Otwock | System BDO & BHP
     </div>
 </div>
 
