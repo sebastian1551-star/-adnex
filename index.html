@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ATO ŁADNEX - Interaktywne Fiszki Audytowe</title>
+    <title>AUTO ŁADNEX - Fiszki i Audyt Ochrony Środowiska</title>
     <style>
+        /* Reset i ustawienia bazowe dla urządzeń mobilnych */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -14,228 +15,179 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f7f9fa;
+            background-color: #ffffff;
             color: #000000;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden;
+            overflow: hidden; /* Blokada przewijania głównego ekranu */
         }
 
+        /* Nagłówek zakładu */
         header {
             text-align: center;
-            padding: 15px 10px;
-            border-bottom: 3px solid #000000;
+            padding: 12px 10px;
+            border-bottom: 2px solid #000000;
             background-color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            z-index: 10;
         }
 
         header h1 {
-            font-size: 1.2rem;
-            font-weight: 900;
+            font-size: 1.1rem;
+            font-weight: bold;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
         header p {
             font-size: 0.8rem;
             text-transform: uppercase;
-            font-weight: 600;
-            margin-top: 3px;
-            color: #444444;
+            margin-top: 2px;
         }
 
-        .main-container {
+        /* Główny kontener na treść - przewijalny */
+        .main-content {
             flex: 1;
             overflow-y: auto;
             padding: 15px;
+            background-color: #ffffff;
             -webkit-overflow-scrolling: touch;
         }
 
-        /* SPIS TREŚCI */
-        .toc-box {
-            border: 3px solid #000000;
+        /* INTERAKTYWNY SPIS TREŚCI */
+        .table-of-contents {
+            border: 2px solid #000000;
+            padding: 12px;
+            margin-bottom: 25px;
             background-color: #ffffff;
-            padding: 15px;
-            margin-bottom: 30px;
         }
 
         .toc-title {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             text-transform: uppercase;
+            margin-bottom: 8px;
             text-align: center;
-            border-bottom: 2px solid #000000;
-            padding-bottom: 8px;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
+            border-bottom: 1px solid #000000;
+            padding-bottom: 4px;
         }
 
-        .toc-menu {
+        .toc-list {
             list-style: none;
             padding: 0;
         }
 
-        .toc-main-item {
-            margin-bottom: 12px;
-        }
-
-        .toc-main-link {
-            color: #000000;
-            text-decoration: none;
-            font-weight: 800;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            display: block;
-            padding: 4px 0;
-        }
-
-        .toc-sub-menu {
-            list-style: none;
-            padding-left: 15px;
-            margin-top: 4px;
-            border-left: 1px dashed #000000;
-        }
-
-        .toc-sub-item {
+        .toc-item {
             margin-bottom: 6px;
         }
 
-        .toc-sub-link {
-            color: #333333;
+        .toc-link {
+            color: #000000;
             text-decoration: none;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             display: block;
-            padding: 2px 0;
-            font-weight: 500;
+            padding: 4px 0;
+            font-weight: bold;
         }
 
-        .toc-main-link:active, .toc-sub-link:active {
-            background-color: #000000;
-            color: #ffffff !important;
-        }
-
-        /* STRUKTURA FISZEK */
-        .section-divider {
-            font-size: 1.2rem;
-            font-weight: 900;
-            text-transform: uppercase;
+        .toc-link:active {
             background-color: #000000;
             color: #ffffff;
-            padding: 8px 12px;
-            margin-top: 20px;
-            margin-bottom: 15px;
-            letter-spacing: 0.5px;
-            scroll-margin-top: 15px;
         }
 
-        .flashcard {
+        /* STRUKTURA FISZEK W OKNIE PRZEWIJALNYM */
+        .flashcard-box {
             border: 3px solid #000000;
-            background-color: #ffffff;
+            background: #ffffff;
             padding: 15px;
-            margin-bottom: 20px;
-            scroll-margin-top: 15px;
-            box-shadow: 4px 4px 0px #000000;
+            margin-bottom: 25px;
+            scroll-margin-top: 10px; /* Margines przy przewijaniu ze spisu treści */
         }
 
-        .card-code {
-            font-size: 0.9rem;
-            font-weight: 800;
+        .card-header {
+            font-size: 1.1rem;
+            font-weight: bold;
             text-transform: uppercase;
-            color: #000000;
-            border-bottom: 1px solid #000000;
-            padding-bottom: 4px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 5px;
             margin-bottom: 10px;
         }
 
-        .card-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 12px;
+        .side-title {
+            font-size: 0.8rem;
+            font-weight: bold;
             text-transform: uppercase;
-            line-height: 1.3;
-        }
-
-        .badge {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            padding: 3px 6px;
-            margin-bottom: 8px;
-            border: 1px solid #000000;
-        }
-
-        .badge-front {
-            background-color: #f0f0f0;
-            color: #000000;
-        }
-
-        .badge-back {
-            background-color: #000000;
+            background: #000000;
             color: #ffffff;
+            padding: 2px 6px;
+            display: inline-block;
+            margin-top: 10px;
+            margin-bottom: 8px;
         }
 
-        .card-content {
+        .side-title.front {
+            background: #666666;
+        }
+
+        .card-body-text {
             font-size: 0.9rem;
-            line-height: 1.45;
+            line-height: 1.4;
             text-align: justify;
-            margin-bottom: 15px;
         }
 
-        .card-content strong {
-            font-weight: 800;
+        /* SEKCJA Z AKTAMI I AUDYTEM */
+        .audit-section {
+            font-size: 0.85rem;
+            border-left: 3px solid #000000;
+            padding-left: 8px;
+            margin: 12px 0;
         }
 
-        .bullet-list {
+        .audit-entry {
+            margin-bottom: 8px;
+        }
+
+        .audit-label {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            display: block;
+        }
+
+        ul {
             padding-left: 18px;
             margin: 8px 0;
         }
 
-        .bullet-list li {
-            margin-bottom: 6px;
-            font-size: 0.88rem;
+        li {
+            margin-bottom: 5px;
+            font-size: 0.9rem;
         }
 
-        .law-alert {
-            border-left: 4px solid #000000;
-            padding-left: 10px;
-            margin: 12px 0;
-            font-size: 0.85rem;
-            background-color: #f9f9f9;
-            padding-top: 6px;
-            padding-bottom: 6px;
-        }
-
-        .practice-container {
-            border: 2px dashed #000000;
-            padding: 10px;
-            margin-top: 12px;
+        /* CZARNO-BIAŁY KWADRAT PRAKTYKI DLA MECHANIKA */
+        .practice-square {
+            border: 3px dashed #000000;
             background-color: #ffffff;
+            padding: 12px;
+            margin-top: 15px;
         }
 
         .practice-title {
-            font-weight: 800;
-            font-size: 0.85rem;
+            font-weight: bold;
             text-transform: uppercase;
+            font-size: 0.9rem;
             margin-bottom: 6px;
         }
 
-        .back-to-top {
+        /* Przycisk powrotu do spisu treści na dole każdej fiszki */
+        .back-to-toc {
             display: inline-block;
+            margin-top: 12px;
             font-size: 0.75rem;
-            font-weight: 800;
             text-transform: uppercase;
+            font-weight: bold;
             color: #666666;
-            text-decoration: none;
-            border-bottom: 1px dashed #666666;
-            padding-bottom: 1px;
-            margin-top: 5px;
-        }
-
-        .back-to-top:active {
-            color: #000000;
+            text-decoration: underline;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -243,441 +195,139 @@
 
     <header>
         <h1>ATO ŁADNEX</h1>
-        <p>Warsztat Mechaniczny — Podręczne Fiszki Audytowe</p>
+        <p>Piotr Ładnowski — Gospodarka Odpadami</p>
     </header>
 
-    <div class="main-container" id="main-scroll">
+    <div class="main-content" id="scroll-container">
 
-        <nav class="toc-box" id="spis-tresci">
-            <div class="toc-title">Spis treści (Interaktywny)</div>
-            <ul class="toc-menu">
-                
-                <li class="toc-main-item">
-                    <a class="toc-main-link" href="#sekcja-1">1. GOSPODARKA ODPADAMI</a>
-                    <ul class="toc-sub-menu">
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-1">1.1. Posiadane uzgodnienia administracyjne</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-2">1.2. Ewidencja odpadów (KPO / KEO / Kary)</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-3">1.3. Roczne sprawozdania o wytworzonych odpadach</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-4">1.4. Odbiorcy odpadów komunalnych</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-5">1.5. Odbiorcy odpadów innych niż komunalne</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-6">1.6. Firmy serwisowe i odpowiedzialność</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-7">1.7. Miejsca magazynowania odpadów</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-1-8">1.8. Gospodarka odpadami - Prawo</a></li>
-                    </ul>
-                </li>
-
-                <li class="toc-main-item">
-                    <a class="toc-main-link" href="#sekcja-2">2. EMISJA PYŁOWO-GAZOWA</a>
-                    <ul class="toc-sub-menu">
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-2-1">2.1. Posiadane decyzje / zgłoszenia</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-2-2">2.2. Pomiary emisji do powietrza</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-2-3">2.3. Źródła emisji w warsztacie</a></li>
-                    </ul>
-                </li>
-
-                <li class="toc-main-item">
-                    <a class="toc-main-link" href="#sekcja-3">3. EMISJA HAŁASU</a>
-                    <ul class="toc-sub-menu">
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-3-1">3.1. Posiadane decyzje (Hałas)</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-3-2">3.2. Pomiary emisji hałasu</a></li>
-                    </ul>
-                </li>
-
-                <li class="toc-main-item">
-                    <a class="toc-main-link" href="#sekcja-4">4. GOSPODARKA WODNO-ŚCIEKOWA</a>
-                    <ul class="toc-sub-menu">
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-1">4.1. Posiadane decyzje (Wodno-ściekowe)</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-2">4.2. Pobór wody w zakładzie</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-3">4.3. Odprowadzanie ścieków</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-4">4.4. Badania jakości ścieków</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-5">4.5. Urządzenia podczyszczające (Separatory)</a></li>
-                        <li class="toc-sub-item"><a class="toc-link toc-sub-link" href="#fiszka-4-6">4.6. Opłata za usługi wodne</a></li>
-                    </ul>
-                </li>
-
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-5-1">5. OPŁATY ZA KORZYSTANIE ZE ŚRODOWISKA</a></li>
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-6-1">6. RAPORT KOBiZE</a></li>
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-7-1">7. WPROWADZANIE OPAKOWAŃ / EKSPORT</a></li>
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-8-1">8. ZUŻYTY SPRZĘT ELEKTRYCZNY (ZSEE)</a></li>
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-9-1">9. BATERIE I AKUMULATORY / ODBIÓR</a></li>
-                <li class="toc-main-item"><a class="toc-main-link" href="#fiszka-10-1">10. SUBSTANCJE CHŁODNICZE (F-GAZY)</a></li>
-
+        <nav class="table-of-contents" id="spis-tresci">
+            <div class="toc-title">Interaktywny Spis Treści</div>
+            <ul class="toc-list">
+                <li class="toc-item"><a class="toc-link" href="#fiszka-bdo">1. Dane Rejestrowe BDO</a></li>
+                <li class="toc-item"><a class="toc-link" href="#fiszka-komunalne">2. Odpady Komunalne i Umowy</a></li>
+                <li class="toc-item"><a class="toc-link" href="#fiszka-ewidencja">3. Ewidencja i Ryzyko Kar (Audyt)</a></li>
+                <li class="toc-item"><a class="toc-link" href="#fiszka-serwis">4. Odpowiedzialność Firm i Serwisów</a></li>
             </ul>
         </nav>
 
-        <div class="section-divider" id="sekcja-1">1. Gospodarka Odpadami</div>
 
-        <div class="flashcard" id="fiszka-1-1">
-            <div class="card-code">Fiszka 1.1</div>
-            <div class="card-title">Posiadane uzgodnienia administracyjne w gospodarce odpadami</div>
+        <div class="flashcard-box" id="fiszka-bdo">
+            <div class="card-header">1. Identyfikacja Podmiotu BDO</div>
             
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Zasada ogólna dla ATO ŁADNEX:</strong> Prowadzenie warsztatu wymaga poprawnego wpisu w rejestrze BDO. Każda zmiana struktury generowanych odpadów obliguje zakład do reakcji prawnej[cite: 403].
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div class="card-body-text">
+                <strong>Numer rejestrowy BDO oraz dane rejestrowe podmiotu</strong> — Autoryzowany Towarzysz Odpadowy ATO ŁADNEX Piotr Ładnowski.
             </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                W przypadku zmiany danych firmy lub wytworzenia odpadu <strong>innego niż ujęty w dotychczasowym rejestrze BDO</strong>, należy bezwzględnie dokonać aktualizacji wpisu w rejestrze BDO <strong>w terminie 30 dni</strong> od dnia zaistnienia zmiany lub wytworzenia nowego rodzaju odpadu[cite: 405].
-            </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-1-2">
-            <div class="card-code">Fiszka 1.2</div>
-            <div class="card-title">Ewidencja odpadów (KPO, KEO oraz rygor kar)</div>
             
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Prawidłowość dokumentacji:</strong> Odpowiedzialność za rzetelne prowadzenie ewidencji odpadowej w systemie BDO spoczywa w 100% na właścicielu podmiotu.
-            </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li>Należy terminowo zatwierdzać i zamykać obieg kart <strong>KPO</strong>. Niedopuszczalne jest pozostawianie kart odrzuconych bez wyjaśnienia przyczyny.</li>
-                    <li>Ewidencję odpadów (KPO oraz karty ewidencji odpadów KEO) należy bezwzględnie <strong>przechowywać w dokumentacji przez okres 5 lat</strong>.</li>
-                    <li>Dla czystych odpadów komunalnych (Grupa 20) <strong>nie ma obowiązku</strong> prowadzenia ewidencji i wystawiania KPO.</li>
-                </ul>
-                <div class="law-alert">
-                    <strong>⚠️ RYGOR FINANSOWY:</strong> Za brak lub nierzetelne, niezgodne ze stanem faktycznym prowadzenie ewidencji odpadów przewidziana jest administracyjna kara pieniężna wynosząca <strong>od 1 000 zł do 1 000 000 zł</strong>.
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            <div class="card-body-text">
+                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">
+                    Numer rejestrowy BDO:<br>
+                    <strong style="font-size: 1.4rem; letter-spacing: 1px;">000159648</strong>
+                </p>
+                <div class="audit-section">
+                    <span class="audit-label">◼ Ważna uwaga z audytu ochrony środowiska:</span>
+                    Każda zmiana danych firmy lub wytworzenie odpadu o kodzie, który nie został wcześniej ujęty w Twoim rejestrze BDO, <strong>wymaga bezwzględnej aktualizacji wpisu w terminie 30 dni</strong> od dnia zmiany lub wytworzenia nowego odpadu! [cite: 53, 55]
                 </div>
             </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
+            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
-        <div class="flashcard" id="fiszka-1-3">
-            <div class="card-code">Fiszka 1.3</div>
-            <div class="card-title">Roczne sprawozdania o wytworzonych odpadach i gospodarowaniu nimi</div>
-            
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Rozliczenia roczne:</strong> Każdy wytwórca odpadów warsztatowych (innych niż komunalne) musi złożyć sprawozdanie roczne za pośrednictwem systemu BDO do właściwego Urzędu Marszałkowskiego[cite: 364].
-            </div>
 
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li>Termin składania sprawozdania upływa <strong>15 marca</strong> za rok poprzedni.</li>
-                    <li>Należy stale monitorować oficjalną skrzynkę e-mail przypisaną do użytkownika głównego w BDO. Urząd Marszałkowski wysyła tam wezwania do korekt. <strong>Czas na uzupełnienie wynosi zazwyczaj 14 dni</strong> — po tym terminie urząd uznaje sprawozdanie za niezłożone.</li>
-                    <li>Kara przewidziana jest za <strong>całkowite nieskładanie zestawienia</strong> w terminie.</li>
+        <div class="flashcard-box" id="fiszka-komunalne">
+            <div class="card-header">2. Odpady Komunalne i Umowy</div>
+            
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div class="card-body-text">
+                <strong>Gospodarka odpadami komunalnymi w warsztacie</strong> — Obowiązki prawne w nieruchomościach niezamieszkałych, umowy oraz rygory podziału odpadów BIO[cite: 15, 102].
+            </div>
+            
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            <div class="card-body-text">
+                <p><strong>Wymogi formalne dla ATO ŁADNEX:</strong> Masz absolutny obowiązek posiadania <strong>umowy na odbiór odpadów komunalnych</strong>[cite: 102]. W zależności od regionu:</p>
+                <ul>
+                    <li><strong>Wariant A:</strong> Umowa z gminą w ramach systemu gminnego dla firm (jeśli gmina tak zdecydowała)[cite: 102].</li>
+                    <li><strong>Wariant B:</strong> Indywidualna umowa z podmiotem prywatnym, który posiada <strong>obowiązkowy wpis do Rejestru Działalności Regulowanej (RDR)</strong>[cite: 102].</li>
+                </ul>
+
+                <div class="audit-section">
+                    <span class="audit-label">◼ Uwaga audytowa — Frakcje BIO:</span>
+                    Zwróć uwagę na dokładne opisy frakcji w umowach[cite: 102]. Prawo wymusza podział na **zwykłe "BIO"** (odpady socjalne bez resztek mięsa) oraz **"BIO-gastronomia"** (odpowiednie dla firm/gastronomii)[cite: 102, 165, 166, 167]. Niewłaściwe przypisanie kodów (np. wpisanie kodu odpadów z ogrodów 20 02 01 zamiast kuchennych 20 01 08) może zostać uznane za **złamanie zasad selektywnego zbierania**[cite: 102, 106].
+                </div>
+
+                <p><strong>Techniczne wymagania lokalizacyjne:</strong></p>
+                <ul>
+                    <li>Pojemniki muszą stać na **wydzielonym i utwardzonym podłożu**[cite: 102].</li>
+                    <li>Muszą posiadać **osłonę (wiatę lub boks)** i zapewniony bezpieczny dojazd dla technicznych pojazdów oczyszczania[cite: 102].</li>
+                    <li>Miejsce magazynowania musi być **wyraźnie oznaczone adresem nieruchomości**.</li>
                 </ul>
             </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
+            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
-        <div class="flashcard" id="fiszka-1-4">
-            <div class="card-code">Fiszka 1.4</div>
-            <div class="card-title">Odbiorcy odpadów komunalnych</div>
-            
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Śmieci bytowe w warsztacie:</strong> Każda nieruchomość niezamieszkała, na której powstają odpady komunalne, musi posiadać aktywną, pisemną umowę odbioru[cite: 365].
-            </div>
 
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li>Umowa musi być w pełni dostosowana do lokalnego <strong>Regulaminu utrzymania czystości i porządku</strong> na terenie gminy/miasta.</li>
-                    <li><strong>Podział frakcji BIO:</strong> Regulaminy nakazują rozróżnienie na standardowe <strong>"Bio"</strong> (socjalne, bez resztek mięsnych) oraz <strong>"Bio-gastronomia"</strong> (odpowiednia dla firm, dopuszczająca wyższe zanieczyszczenie frakcji).</li>
-                    <li>Przypisanie błędnych kodów lub zawężenie selektywnej zbiórki w umowie grozi uznaniem umowy za niespełniającą wymogów ustawy.</li>
-                </ul>
+        <div class="flashcard-box" id="fiszka-ewidencja">
+            <div class="card-header">3. Ewidencja i Ryzyko Kar</div>
+            
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div class="card-body-text">
+                <strong>Karty KPO, KEO oraz rygor odpowiedzialności karnej</strong> — Jak prowadzić dokumentację odpadową warsztatu, aby uniknąć kar podczas kontroli[cite: 59, 68, 73, 91].
             </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
+            
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            <div class="card-body-text">
+                <p><strong>Zasady prowadzenia ewidencji w ATO ŁADNEX:</strong></p>
+                <ul>
+                    <li>Odpowiedzialność za poprawność i rzetelność danych w kartach KPO (Karty Przekazania Odpadów) oraz KEO (Karty Ewidencji Odpadów) leży **całkowicie po stronie Twojej firmy**[cite: 59, 68, 90].</li>
+                    <li>Dokumenty odpadowe (KPO i KEO) masz obowiązek **przechowywać przez okres 5 lat**[cite: 92].</li>
+                    <li>**Wskazówka audytowa:** Dla czystych odpadów komunalnych firma nie ma obowiązku wystawiania kart KPO przez system BDO (nie wystawia się KPO na odpady z grupy 20)[cite: 82, 88].</li>
+                </ul>
+
+                <div class="audit-section" style="border-left-color: #000000;">
+                    <span class="audit-label" style="color: #000000; font-weight: bold;">⚠️ KARY FINANSOWE (WYCIĄG Z AUDYTU):</span>
+                    Za całkowity **brak prowadzenia ewidencji odpadów** lub za prowadzenie jej w sposób **nierzetelny i niezgodny ze stanem faktycznym**, przepisy przewidują administracyjną karę pieniężną w wysokości **od 1 000 zł aż do 1 000 000 zł**! 
+                </div>
+
+                <div class="audit-section">
+                    <span class="audit-label">◼ Rygor ochrony środowiska:</span>
+                    Bezwzględny, ustawowy **zakaz mieszania różnych rodzajów odpadów**[cite: 97]. Wrzucenie odpadu niebezpiecznego (np. filtra oleju) do odpadu komunalnego jest natychmiast kwalifikowane jako ciężkie naruszenie prawa ochrony środowiska[cite: 97].
+                </div>
+            </div>
+            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
-        <div class="flashcard" id="fiszka-1-5">
-            <div class="card-code">Fiszka 1.5</div>
-            <div class="card-title">Odbiorcy odpadów innych niż komunalne</div>
+
+        <div class="flashcard-box" id="fiszka-serwis">
+            <div class="card-header">4. Podmioty Zewnętrzne i Serwisy</div>
             
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Odpady technologiczne i niebezpieczne:</strong> Przekazywanie olejów przepracowanych, filtrów, akumulatorów czy części może odbywać się wyłącznie podmiotom z uprawnieniami[cite: 366].
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div class="card-body-text">
+                <strong>Odpowiedzialność za odpady wytwarzane przez firmy serwisowe i sprzątające</strong> na terenie Twojego zakładu[cite: 17, 58, 63, 135].
             </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li>Właściciel warsztatu ma obowiązek zweryfikować czy odbiorca odpadów posiada <strong>aktualną decyzję zatwierdzoną przez urząd</strong> na zbieranie, przetwarzanie lub transport odpadów.</li>
-                    <li>Wszelkie kopie decyzji partnerów handlowych oraz dokumentację środowiskową z ostatnich <strong>5 lat</strong> należy archiwizować na wypadek kontroli WIOŚ.</li>
-                </ul>
-            </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-1-6">
-            <div class="card-code">Fiszka 1.6</div>
-            <div class="card-title">Firmy serwisowe i odpowiedzialność za odpady</div>
             
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Prace zewnętrzne w ATO ŁADNEX:</strong> Kto odpowiada za odpady generated podczas sprzątania, serwisu maszyn czy napraw budowlanych na terenie warsztatu? [cite: 367, 408]
-            </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li>Zgodnie z ustawą o odpadach, podmiot wykonujący usługę (np. zewnętrzna firma sprzątająca lub serwisant maszyn) <strong>jest automatycznym wytwórcą i właścicielem powstałych odpadów</strong>, chyba że umowa o świadczenie usług stanowi inaczej[cite: 285].</li>
-                    <li>Należy precyzyjnie regulować w umowach kwestię odpadów specjalistycznych (np. opakowania po silnych chemikaliach, zużyte części maszyn)[cite: 285].</li>
-                    <li>Podmioty, które nawet tymczasowo magazynują swoje odpady na Twoim terenie, <strong>muszą posiadać do tego tytuł prawny</strong> (zapis w umowie lub podnajem).</li>
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            <div class="card-body-text">
+                <p><strong>Kwestie umowne z podwykonawcami:</strong></p>
+                <ul>
+                    <li>Jeśli wynajmujesz zewnętrzną firmę (np. do sprzątania, serwisu urządzeń), odpady wytworzone w ramach ich usługi **stanowią własność tej firmy wykonującej usługę** – chyba że umowa stanowi inaczej.</li>
+                    <li>**Zalecenie z audytu:** W umowach z firmami zewnętrznymi musisz **jasno i precyzyjnie uregulować kwestię odpowiedzialności za odpady specjalistyczne** (np. zużyte opakowania po silnej chemii, przeterminowane środki czyszczące), które nie są odpadami komunalnymi[cite: 58, 63].</li>
+                    <li>Jeśli podmioty zewnętrzne magazynują swoje odpady na Twoim terenie (nawet tymczasowo), powinny posiadać do tego **tytuł prawny jasno określony w umowie** (np. zapis o dzierżawie powierzchni lub uregulowany zapis o współpracy)[cite: 135, 138].</li>
                 </ul>
-            </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
 
-        <div class="flashcard" id="fiszka-1-7">
-            <div class="card-code">Fiszka 1.7</div>
-            <div class="card-title">Miejsca magazynowania odpadów</div>
-            
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Organizacja placu i ład przestrzenny:</strong> Wymagania techniczno-sanitarne dla kontenerów warsztatowych oraz boksów na odpady selektywne[cite: 368].
-            </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li><strong>Bezwzględny zakaz składowania odpadów bezpośrednio na ziemi.</strong> Wszystko musi znajdować się w szczelnych pojemnikach/paletopojemnikach.</li>
-                    <li>Pojemniki przeznaczone na odpady selektywne muszą spełniać wymogi kolorystyczne i oznaczeniowe: <strong>Niebieski (Papier)</strong>, <strong>Zielony (Szkło)</strong>, <strong>Żółty (Metale i tworzywa sztuczne)</strong>, <strong>Brązowy (Bio)</strong>.</li>
-                    <li>Miejsce gromadzenia musi posiadać <strong>wyraźne oznaczenie adresem nieruchomości</strong>.</li>
-                </ul>
-                
-                <div class="practice-container">
-                    <div class="practice-title">◼ PRAKTYKA — JAK DZIAŁA MECHANIK W ATO ŁADNEX:</div>
-                    <ul class="bullet-list" style="margin: 0;">
-                        <li>Do śmietnika komunalnego wrzucaj <strong>tylko</strong> odpady socjalne (papier biurowy, butelki po napojach, resztki jedzenia).</li>
-                        <li><strong>Kategoryczny zakaz</strong> wrzucania tam: zaolejonych szmat, czyściwa, filtrów oleju, zużytych sorbentów, opakowań po sprejach czy części mechanicznych. Te odpady odkładaj wyłącznie do oznaczonych pojemników warsztatowych BDO!</li>
+                <div class="practice-square">
+                    <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, zużyty papier biurowy.</li>
+                        <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
+                        <li><strong>Kategorycznie WYELIMINUJ i ogranicz trafianie tam:</strong> zaolejonych szmat, zużytego czyściwa, filtrów oleju/paliwa, zdemontowanych części samochodowych, puszek po sprayach, zmywaczach oraz zużytych sorbentów.</li>
+                        <li>Każdy odpad techniczny odkładaj <strong>wyłącznie do specjalnie oznaczonych, dedykowanych pojemników warsztatowych</strong> powiązanych z Twoim numerem BDO.</li>
                     </ul>
                 </div>
             </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-1-8">
-            <div class="card-code">Fiszka 1.8</div>
-            <div class="card-title">Gospodarka odpadami - Prawo</div>
-            
-            <div class="badge badge-front">Strona 1 (Wprowadzenie)</div>
-            <div class="card-content">
-                <strong>Fundament prawny:</strong> Wykaz kluczowych aktów prawnych regulujących gospodarkę odpadami i procedury kontrolne w Polsce[cite: 369].
-            </div>
-
-            <div class="badge badge-back">Strona 2 (Zalecenia z Audytu)</div>
-            <div class="card-content">
-                <ul class="bullet-list">
-                    <li><strong>Ustawa o odpadach</strong> — wprowadza hierarchię postępowania z odpadami oraz ogólny, kategoryczny zakaz mieszania różnych rodzajów odpadów.</li>
-                    <li><strong>Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada obowiązki dotyczące umów komunalnych.</li>
-                    <li><strong>Rozporządzenie w sprawie szczegółowych warunków magazynowania odpadów</strong> — określa rygory zabezpieczenia miejsc magazynowania i etykietowania odpadów niebezpiecznych.</li>
-                </ul>
-            </div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-
-        <div class="section-divider" id="sekcja-2">2. Emisja Zanieczyszczeń Pyłowo-Gazowych [cite: 370]</div>
-
-        <div class="flashcard" id="fiszka-2-1">
-            <div class="card-code">Fiszka 2.1</div>
-            <div class="card-title">Posiadane decyzje / zgłoszenia (Emisja do powietrza) [cite: 371]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Wprowadzenie gazów lub pyłów do powietrza z instalacji warsztatowych (np. lakiernia, kotłownia, stanowiska spawalnicze) wymaga analizy prawnej pod kątem uzyskania pozwolenia lub dokonania oficjalnego zgłoszenia instalacji do organu ochrony środowiska (Starostwo/Urząd Miasta)[cite: 371].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Eksploatacja instalacji bez wymaganego zgłoszenia lub pozwolenia skutkuje karami pieniężnymi lub nakazem wstrzymania użytkowania instalacji przez WIOŚ. Należy ze szczególną starannością zweryfikować parametry emisyjne urządzeń grzewczych i technologicznych.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-2-2">
-            <div class="card-code">Fiszka 2.2</div>
-            <div class="card-title">Pomiary emisji (Emisja do powietrza) [cite: 372]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Prowadzenie okresowych pomiarów wielkości emisji z emitorów (kominów, wentylatorów odciągowych) w przypadkach określonych w pozwoleniach lub powszechnie obowiązujących przepisach prawa[cite: 372].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Wyniki pomiarów należy przedkładać właściwym organom inspekcji sanitarnej i ochrony środowiska oraz przechowywać przez okres wymagany prawem. Pomiary muszą być realizowane przez akredytowane laboratoria.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-2-3">
-            <div class="card-code">Fiszka 2.3</div>
-            <div class="card-title">Źródła emisji (Emisja do powietrza) [cite: 373]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Identyfikacja punktowych i dyfuzyjnych źródeł emisji w ATO ŁADNEX: kotły grzewcze, nagrzewnice, procesy spawania, szlifowania, malowania czy napełniania układów klimatyzacji[cite: 373].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Wszystkie źródła emisji muszą być ujęte w wewnętrznej dokumentacji technicznej. Nowoczesne systemy filtracji i odciągów stanowiskowych minimalizują ryzyko przekroczenia standardów emisyjnych.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-
-        <div class="section-divider" id="sekcja-3">3. Emisja Hałasu [cite: 374]</div>
-
-        <div class="flashcard" id="fiszka-3-1">
-            <div class="card-code">Fiszka 3.1</div>
-            <div class="card-title">Posiadane decyzje (Emisja hałasu) [cite: 376]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Dopuszczalne poziomy hałasu w środowisku określają przepisy ogólne. W przypadku skarg mieszkańców lub lokalizacji w strefie chronionej akustycznie, organ może wydać decyzję o dopuszczalnym poziomie hałasu[cite: 376].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Warsztat mechaniczny eksploatujący urządzenia generujące hałas (kompresory, klucze pneumatyczne, próby silników) musi pilnować, aby fale dźwiękowe nie przekraczały norm na granicy działki zakładu.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-3-2">
-            <div class="card-code">Fiszka 3.2</div>
-            <div class="card-title">Pomiary emisji (Emisja hałasu) [cite: 377]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Pomiary poziomu hałasu w środowisku realizowane na granicy terenu zakładu w celu weryfikacji dotrzymywania standardów jakości środowiska[cite: 377].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Zaleca się montaż urządzeń głośnych (np. główny kompresor śrubowy) wewnątrz wygłuszonych pomieszczeń lub stosowanie obudów dźwiękochłonnych, co zapobiega konfliktom sąsiedzkim i sankcjom WIOŚ.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-
-        <div class="section-divider" id="sekcja-4">4. Gospodarka Wodno-Ściekowa [cite: 378]</div>
-
-        <div class="flashcard" id="fiszka-4-1">
-            <div class="card-code">Fiszka 4.1</div>
-            <div class="card-title">Posiadane decyzje (Gospodarka wodno-ściekowa) [cite: 379]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Pozwolenie wodnoprawne jest wymagane m.in. na wprowadzanie ścieków przemysłowych zawierających substancje szczególnie szkodliwe do urządzeń kanalizacyjnych innego podmiotu lub wprost do środowiska[cite: 379].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Należy sprawdzić umowy z zakładem wodociągowym pod kątem zgody na zrzut ścieków przemysłowych (ścieki z mycia stanowisk, części, pojazdów) i ewentualnych limitów stężeń zanieczyszczeń.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-4-2">
-            <div class="card-code">Fiszka 4.2</div>
-            <div class="card-title">Pobór wody [cite: 380]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Ustalenie źródeł poboru wody w obiekcie (sieć wodociągowa miejska vs. własne ujęcie/studnia głębinowa) oraz weryfikacja celów (socjalno-bytowe, technologiczne)[cite: 380].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Pobór wody z własnego ujęcia w ilości przekraczającej 5 m3 na dobę (pobór powszechny/zwykły) wymaga uzyskania pozwolenia wodnoprawnego na usługi wodne. Koszty rozliczane są na podstawie wskazań wodomierzy.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-4-3">
-            <div class="card-code">Fiszka 4.3</div>
-            <div class="card-title">Odprowadzanie ścieków [cite: 381]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Klasyfikacja strumieni ścieków: bytowe (z toalet i pomieszczeń socjalnych), przemysłowe (z hali napraw i myjni) oraz opadowe/roztopowe (z utwardzonych placów i dachów)[cite: 381].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Zabrania się wprowadzania ścieków przemysłowych zaolejonych wprost do kanalizacji bytowej bez uprzedniego podczyszczenia. Ścieki deszczowe z placów manewrowych warsztatu również podlegają rygorom prawnym.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-4-4">
-            <div class="card-code">Fiszka 4.4</div>
-            <div class="card-title">Badania jakości ścieków [cite: 382]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Obowiązek regularnego poboru próbek i badania ścieków pod kątem stężenia zawiesiny ogólnej oraz węglowodorów ropopochodnych[cite: 382].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Badania realizuje się w terminach określonych w pozwoleniu lub umowie z sieciami. Przekroczenie wskaźników skutkuje naliczeniem wysokich opłat podwyższonych przez operatora sieci.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-4-5">
-            <div class="card-code">Fiszka 4.5</div>
-            <div class="card-title">Urządzenia podczyszczające na kanalizacji [cite: 383]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Eksploatacja infrastruktury ochronnej: separatory substancji ropopochodnych wraz z osadnikami zawiesin, zainstalowane na odpływie ścieków z hali warsztatowej i placu[cite: 383].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Urządzenia te wymagają <strong>regularnego serwisu, czyszczenia i przeglądów eksploatacyjnych</strong> (minimum raz/dwa razy w roku). Odpady z czyszczenia separatorów (szlamy zaolejone) to odpady niebezpieczne, które musi odbierać wyspecjalizowana firma z wpisem do BDO. Należy bezwzględnie prowadzić książkę eksploatacji urządzenia.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-4-6">
-            <div class="card-code">Fiszka 4.6</div>
-            <div class="card-title">Opłata za usługi wodne [cite: 384]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">System opłat pobierany przez Państwowe Gospodarstwo Wodne Wody Polskie za pobór wody lub odprowadzanie ścieków/wód opadowych[cite: 384].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Opłaty dzielą się na stałe i zmienne. Naliczane są na podstawie informacji kwartalnych lub decyzji ustalających. Należy terminowo regulować należności, by unikać postępowań egzekucyjnych.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-
-        <div class="section-divider">Pozostałe Obszary Audytowe</div>
-
-        <div class="flashcard" id="fiszka-5-1">
-            <div class="card-code">Fiszka 5.1</div>
-            <div class="card-title">Opłaty za korzystanie ze środowiska [cite: 385, 386]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Podmiot korzystający ze środowiska (ATO ŁADNEX) ma obowiązek samodzielnego naliczania i wnoszenia opłat m.in. za wprowadzanie gazów i pyłów do powietrza ze spalania paliw w silnikach pojazdów czy kotłach[cite: 385, 386].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Wykazy roczne składa się do Urzędu Marszałkowskiego do <strong>31 marca</strong> za rok poprzedni. Jeśli wyliczona opłata roczna dla danego komponentu nie przekracza <strong>800 zł</strong>, nie wnosi się jej na konto urzędu, ale <strong>złożenie samego wykazu/raportu jest obowiązkowe</strong> (zwolnienie następuje całkowicie, gdy roczna opłata nie przekracza 100 zł).</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-6-1">
-            <div class="card-code">Fiszka 6.1</div>
-            <div class="card-title">Raport KOBiZE [cite: 387, 388]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Krajowy Ośrodek Bilansowania i Zarządzania Emisjami (KOBiZE). Każdy podmiot, którego działalność powoduje emisje (np. eksploatacja aut firmowych, ogrzewanie, spawanie), musi posiadać tam aktywne konto[cite: 387, 388].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Raport wprowadza się elektronicznie do końca <strong>stycznia</strong> za rok poprzedni. Dane w raporcie KOBiZE muszą być w 100% spójne z wartościami wykazanymi później w sprawozdaniu do Urzędu Marszałkowskiego z tytułu opłat środowiskowych.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-7-1">
-            <div class="card-code">Fiszka 7.1</div>
-            <div class="card-title">Wprowadzanie do obrotu produktów w opakowaniach [cite: 389, 390]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Dotyczy sytuacji, w której warsztat pakuje swoje towary/usługi w opakowania (np. owijanie części folią stretch, pakowanie w kartony) lub importuje towary w opakowaniach z zagranicy[cite: 389, 390].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Wiąże się to z obowiązkiem zapewnienia odzysku i recyklingu odpadów opakowaniowych (lub wnoszenia opłaty produktowej) oraz składania rocznego sprawozdania w dziale opakowań systemu BDO. Warto podjąć współpracę z Organizacją Odzysku Opakowań.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-8-1">
-            <div class="card-code">Fiszka 8.1</div>
-            <div class="card-title">Wprowadzanie oraz zbieranie zużytych urządzeń elektrycznych i elektronicznych [cite: 391, 392]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">ZSEE (Zużyty sprzęt elektryczny i elektroniczny). W warsztacie powstają odpady takie jak zużyte elektronarzędzia, świetlówki, sterowniki komputerowe czy radia samochodowe[cite: 391, 392].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Zabrania się umieszczania zużytego sprzętu łącznie z innymi odpadami (zwłaszcza komunalnymi) — grozi za to wysoka kara grzywny. Elektroodpady przekazuje się wyłącznie podmiotom uprawnionym do zbierania ZSEE i ewidencjonuje odpowiednimi kodami w BDO.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-9-1">
-            <div class="card-code">Fiszka 9.1</div>
-            <div class="card-title">Wprowadzanie do obrotu baterii i akumulatorów oraz prowadzenie miejsca odbioru [cite: 393, 394]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Kluczowy obszar dla warsztatu samochodowego. Sprzedaż nowych akumulatorów samochodowych oraz obowiązkowy bezpłatny odbiór zużytych od klientów końcowych[cite: 393, 394].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Przy sprzedaży detalicznej nowego akumulatora ołowiowego, sprzedawca ma obowiązek pobrać <strong>opłatę depozytową</strong> (30 zł za sztukę), jeśli klient nie zwraca starego akumulatora w momencie zakupu. Pobrany depozyt rozlicza się rocznie. Zużyte akumulatory to odpad niebezpieczny — magazynek musi być zadaszony i kwasoodporny.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
-        </div>
-
-        <div class="flashcard" id="fiszka-10-1">
-            <div class="card-code">Fiszka 10.1</div>
-            <div class="card-title">Stosowanie substancji chłodniczych, w tym substancji kontrolowanych [cite: 395, 396]</div>
-            <div class="badge badge-front">Strona 1</div>
-            <div class="card-content">Obsługa układów klimatyzacji samochodowych (zarówno stary czynnik R134a, jak i nowy HFO-1234yf) oraz stacjonarnych urządzeń klimatyzacyjnych na terenie biura warsztatu[cite: 395, 396].</div>
-            <div class="badge badge-back">Strona 2</div>
-            <div class="card-content">Mechanicy obsługujący stacje klimatyzacji muszą posiadać <strong>personalne certyfikaty f-gazowe</strong>. Warsztat ma obowiązek prowadzenia dokładnej ewidencji zakupionego, odzyskanego i napełnionego czynnika, a stacje klimatyzacji podlegają okresowym kalibracjom. Wycieki substancji kontrolowanych są surowo karane przez WIOŚ.</div>
-            <a class="back-to-top" href="#spis-tresci">↑ Spis Treści</a>
+            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
     </div>
 
-    <script>
-        // Płynne i natychmiastowe przewijanie do kotwic bez zmiany adresu URL
-        document.querySelectorAll('.toc-box a').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-        document.querySelectorAll('.back-to-top').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetElement = document.getElementById('spis-tresci');
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
