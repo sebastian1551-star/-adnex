@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Protokół Audytowy - Warsztat Otwock</title>
-    <!-- Biblioteka do generowania PDF bezpośrednio w przeglądarce -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* Reset i ustawienia bazowe dla urządzeń mobilnych */
@@ -55,7 +54,7 @@
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
             align-self: flex-start;
             padding: 10px 0;
         }
@@ -65,7 +64,7 @@
             font-weight: bold;
             text-transform: uppercase;
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
             border-bottom: 2px dashed #000000;
             padding-bottom: 8px;
         }
@@ -73,17 +72,17 @@
         /* Karta informacyjna firmy na stronie głównej */
         .company-info-box {
             border: 3px solid #000000;
-            padding: 15px;
-            margin-bottom: 10px;
+            padding: 12px;
+            margin-bottom: 5px;
             background-color: #ffffff;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.85rem;
+            line-height: 1.4;
         }
 
         .company-info-box h2 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             border-bottom: 2px solid #000000;
             padding-bottom: 3px;
         }
@@ -91,8 +90,8 @@
         .menu-item {
             background-color: #ffffff;
             border: 3px solid #000000;
-            padding: 16px;
-            font-size: 1rem;
+            padding: 12px 14px;
+            font-size: 0.9rem;
             font-weight: bold;
             text-transform: uppercase;
             text-align: left;
@@ -110,7 +109,7 @@
 
         .menu-item::after {
             content: "➔";
-            font-size: 1.1rem;
+            font-size: 1rem;
         }
 
         .pdf-global-btn {
@@ -157,7 +156,7 @@
             transform: rotateY(180deg);
         }
 
-        /* Wspólny styl dla strony 1 i 2 */
+        /* Wspólny syl dla przodu i tyłu */
         .card-face {
             position: absolute;
             width: 100%;
@@ -213,7 +212,7 @@
         }
 
         .card-title {
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
             border-bottom: 2px solid #000000;
@@ -226,8 +225,8 @@
             flex: 1;
             overflow-y: auto;
             padding-right: 5px;
-            margin-top: 10px;
-            font-size: 0.9rem;
+            margin-top: 5px;
+            font-size: 0.88rem;
             line-height: 1.4;
         }
 
@@ -255,7 +254,7 @@
 
         .notes-textarea {
             width: 100%;
-            height: 65px;
+            height: 60px;
             border: 2px solid #000000;
             padding: 6px;
             font-family: inherit;
@@ -282,36 +281,80 @@
 
         ul {
             padding-left: 18px;
-            margin: 8px 0;
+            margin: 6px 0;
         }
 
         li {
-            margin-bottom: 6px;
+            margin-bottom: 5px;
         }
 
         .law-box {
             border-left: 3px solid #000000;
             padding-left: 8px;
-            margin: 12px 0;
-            font-size: 0.85rem;
+            margin: 10px 0;
+            font-size: 0.82rem;
         }
 
         .law-entry {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .practice-square {
             border: 3px dashed #000000;
-            padding: 12px;
-            margin-top: 12px;
+            padding: 10px;
+            margin-top: 10px;
             background-color: #ffffff;
         }
 
         .practice-title {
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
+        }
+
+        /* Specjalna stylistyka dla kodów i badgy miejskich */
+        .waste-badge {
+            display: inline-block;
+            background-color: #000000;
+            color: #ffffff;
+            font-weight: bold;
+            padding: 2px 6px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+        }
+        
+        .waste-badge.hazardous {
+            background-color: #d90000;
+        }
+
+        .color-row {
+            display: flex;
+            align-items: center;
             margin-bottom: 6px;
+            font-size: 0.85rem;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #000;
+            margin-right: 8px;
+            flex-shrink: 0;
+        }
+        
+        .waste-group-title {
+            font-weight: bold;
+            margin-top: 8px;
+            text-transform: uppercase;
+            font-size: 0.82rem;
+            border-bottom: 1px solid #000;
+            padding-bottom: 2px;
+        }
+
+        .legal-highlight {
+            font-weight: bold;
+            border-bottom: 1px solid #000;
         }
 
         /* ================= DOLNA SEKCJA NAWIGACYJNA ================= */
@@ -352,11 +395,6 @@
             background-color: #ffffff;
             cursor: not-allowed;
         }
-
-        /* Ukryty kontener używany wyłącznie do generowania struktury PDF */
-        #pdf-template {
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -367,7 +405,6 @@
 
     <div class="main-content">
 
-        <!-- ================= STRONA TYTUŁOWA / MENU STARTOWE ================= -->
         <div class="menu-container" id="main-menu">
             
             <div class="company-info-box">
@@ -376,23 +413,24 @@
                 <p><strong>Audytor/Mechanik:</strong> Piotr Ładnowski</p>
                 <p><strong>Adres:</strong> ul. Batalionów Chłopskich 1</p>
                 <p><strong>Miejscowość:</strong> 05-400 Otwock</p>
-                <p style="margin-top: 8px; font-size: 0.8rem; border-top: 1px dashed #000; padding-top: 5px; font-style: italic;">
-                    Podsumowanie wdrożenia procedur środowiskowych, kontroli rygorów segregacji odpadów komunalnych oraz ewidencji w systemie BDO.
+                <p style="margin-top: 4px; font-size: 0.78rem; border-top: 1px dashed #000; padding-top: 4px; font-style: italic;">
+                    Pełna mobilna weryfikacja procedur środowiskowych, ewidencji kodów BDO, wytycznych BIP Otwock oraz rygorów magazynowania.
                 </p>
             </div>
 
             <div class="menu-title">Wybierz temat fiszki</div>
             <button class="menu-item" onclick="openFlashcard(0)">1. Identyfikacja Podmiotu</button>
-            <button class="menu-item" onclick="openFlashcard(1)">2. Odpady Komunalne</button>
+            <button class="menu-item" onclick="openFlashcard(1)">2. Odpady Komunalne (Teoria)</button>
+            <button class="menu-item" onclick="openFlashcard(2)" style="border-color: #0056b3; color: #0056b3;">2b. Odpady Komunalne (Praktyka Otwock) 🏙️</button>
+            <button class="menu-item" onclick="openFlashcard(3)">3. Katalog Odpadów Warsztatowych</button>
+            <button class="menu-item" onclick="openFlashcard(4)" style="border-color: #28a745; color: #28a745;">3b. Odpady z Działalności (Praktyka & Wytyczne) 🛠️</button>
+            <button class="menu-item" onclick="openFlashcard(5)" style="border-color: #d90000; color: #d90000;">4. Podstawy Prawne i Wymogi ⚖️</button>
             
             <button class="pdf-global-btn" onclick="generateAuditPDF()">Pobierz Protokół PDF ⬇</button>
         </div>
 
-        <!-- ================= FISZKA 1 ================= -->
         <div class="flashcard-container" id="card-0">
             <div class="flashcard-inner">
-                
-                <!-- Strona 1 -->
                 <div class="card-face card-front" onclick="flipCard(this)">
                     <div class="card-header-actions">
                         <div class="side-indicator front-tag">Strona 1 (Przód)</div>
@@ -405,7 +443,6 @@
                     <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
                 
-                <!-- Strona 2 -->
                 <div class="card-face card-back" onclick="flipCard(this)">
                     <div class="card-header-actions">
                         <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
@@ -421,7 +458,6 @@
                             <strong>Ważne:</strong> Numer ten musi być bezwzględnie umieszczany na wszystkich dokumentach sporządzanych w związku z prowadzoną działalnością (faktury, paragony fiskalne, karty przekazania odpadów KPO, ewidencja odpadowa).
                         </p>
                         
-                        <!-- Notatnik lokalny -->
                         <div class="notes-section" onclick="event.stopPropagation();">
                             <label for="note-0">Twoje Notatki / Uwagi z audytu:</label>
                             <textarea id="note-0" class="notes-textarea" placeholder="Wpisz np. status pieczątek, faktur..." oninput="saveNote(0)"></textarea>
@@ -429,16 +465,11 @@
                     </div>
                     <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
-
             </div>
         </div>
 
-
-        <!-- ================= FISZKA 2 ================= -->
         <div class="flashcard-container" id="card-1">
             <div class="flashcard-inner">
-                
-                <!-- Strona 1 -->
                 <div class="card-face card-front" onclick="flipCard(this)">
                     <div class="card-header-actions">
                         <div class="side-indicator front-tag">Strona 1 (Przód)</div>
@@ -456,7 +487,6 @@
                     <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
                 
-                <!-- Strona 2 -->
                 <div class="card-face card-back" onclick="flipCard(this)">
                     <div class="card-header-actions">
                         <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
@@ -464,61 +494,251 @@
                     </div>
                     <div class="card-title">Wymogi i Prawo</div>
                     <div class="scrollable-content">
-                        
                         <p><strong>Główny wymóg formalny:</strong> Warsztat ma bezwzględny obowiązek posiadania <strong>umowy na odbiór odpadów komunalnych</strong>. Rozwiązanie zależy od Twojej gminy:</p>
                         <ul>
-                            <li><strong>Wariant A:</strong> Umowa w ramach <strong>systemu gminnego dla nieruchomości niezamieszkałych</strong> (jeśli gmina podjęła uchwałę o objęciu firm systemem).</li>
-                            <li><strong>Wariant B:</strong> <strong>Indywidualna umowa</strong> podpisana bezpośrednio z podmiotem prywatnym, posiadającym <strong>obowiązkowy wpis do RDR (Rejestru Działalności Regulowanej)</strong> w gminie.</li>
+                            <li><strong>Wariant A:</strong> Umowa w ramach systemu gminnego dla nieruchomości niezamieszkałych.</li>
+                            <li><strong>Wariant B:</strong> Indywidualna umowa podpisana bezpośrednio z podmiotem wpisanym do RDR w gminie.</li>
                         </ul>
 
-                        <p style="margin-top: 10px;"><strong>Na co zwrócić uwagę w zakładzie (Kontrole):</strong></p>
-                        <ul>
-                            <li><strong>Całkowity zakaz mieszania:</strong> Niedopuszczalne jest wrzucanie odpadów komunalnych (socjalnych) do pojemników z odpadami niebezpiecznymi i warsztatowymi! Mieszanie grozi <strong>drastycznymi karami finansowymi</strong> od WIOŚ.</li>
-                            <li><strong>Lokalizacja pojemników:</strong> Miejsce na kontenery musi mieć <strong>utwardzone podłoże</strong>, osłonę (wiatę/boks) oraz <strong>zapewniony dojazd dla pojazdów technicznych</strong>.</li>
-                            <li><strong>Dokumentacja:</strong> Należy bezterminowo przechowywać <strong>umowę oraz faktury</strong> za odbiór odpadów do kontroli.</li>
-                        </ul>
-
-                        <p style="margin-top: 10px;"><strong>Pełne Podstawy Prawne (Wszystkie Akty):</strong></p>
+                        <p style="margin-top: 5px;"><strong>Pełne Podstawy Prawne (Wszystkie Akty):</strong></p>
                         <div class="law-box">
                             <div class="law-entry"><strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada obowiązek zawarcia umowy.</div>
                             <div class="law-entry"><strong>2. Ustawa o odpadach</strong> — wprowadza zakaz mieszania poszczególnych rodzajów odpadów.</div>
-                            <div class="law-entry"><strong>3. Rozp. Min. Klimatu ws. szczegółowych warunków magazynowania odpadów</strong> — rygory zabezpieczenia miejsc.</div>
-                            <div class="law-entry"><strong>4. Rozp. Min. Infrastruktury ws. warunków technicznych budynków</strong> — utwardzenie, wiaty, odległości.</div>
                         </div>
 
-                        <!-- KWADRAT Z PRAKTYKĄ DLA MECHANIKA -->
-                        <div class="practice-square">
-                            <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
-                            <ul>
-                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach.</li>
-                                <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
-                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat, filtrów, części, puszek po sprayach.</li>
-                            </ul>
-                        </div>
-
-                        <!-- Notatnik lokalny -->
                         <div class="notes-section" onclick="event.stopPropagation();">
                             <label for="note-1">Twoje Notatki / Uwagi z audytu:</label>
-                            <textarea id="note-1" class="notes-textarea" placeholder="Wpisz np. nr umowy komunalnej, datę kontroli pojemników..." oninput="saveNote(1)"></textarea>
+                            <textarea id="note-1" class="notes-textarea" placeholder="Wpisz np. nr umowy komunalnej, dane podmiotu odbierającego..." oninput="saveNote(1)"></textarea>
                         </div>
-
                     </div>
                     <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
+            </div>
+        </div>
 
+        <div class="flashcard-container" id="card-2">
+            <div class="flashcard-inner">
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag" style="background-color:#0056b3;">Strona 1 (Praktyka)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title" style="color:#0056b3;">2b. Odpady Komunalne - Praktyka</div>
+                    <div class="scrollable-content">
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.85rem; margin-top: 5px;">Wymagania Techniczne Miejsca:</p>
+                        <p style="text-align: justify; margin-bottom: 8px;">
+                            Pojemniki na śmieci socjalne nie mogą stać bezpośrednio na ziemi lub trawie. Miejsce rozstawienia musi posiadać <span class="legal-highlight">utwardzone, płaskie i nieprzepuszczalne podłoże</span> (np. wylewka betonowa, asfalt lub szczelna kostka).
+                        </p>
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.85rem;">Oznakowanie koszy i kolory:</p>
+                        <p style="font-size: 0.82rem; font-style: italic; margin-bottom: 5px;">Zgodnie z oficjalnymi wytycznymi BIP Urzędu Miasta Otwock:</p>
+                        
+                        <div class="color-row"><div class="color-dot" style="background-color:#0056b3;"></div> <strong>Niebieski</strong> — Papier (Karton, tektura, ulotki)</div>
+                        <div class="color-row"><div class="color-dot" style="background-color:#28a745;"></div> <strong>Zielony</strong> — Szkło (Butelki, słoiki opróżnione)</div>
+                        <div class="color-row"><div class="color-dot" style="background-color:#ffc107;"></div> <strong>Żółty</strong> — Metale i Tworzywa sztuczne (Butelki PET, puszki)</div>
+                        <div class="color-row"><div class="color-dot" style="background-color:#8b5a2b;"></div> <strong>Brązowy</strong> — Bioodpady (Resztki kuchenne, fusy)</div>
+                        <div class="color-row"><div class="color-dot" style="background-color:#444444;"></div> <strong>Czarny / Szary</strong> — Odpady Zmieszane (Resztki socjalne)</div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+                
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator" style="background-color:#0056b3;">Strona 2 (Frakcje & Kody)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title">Kody grupy 20 w warsztacie</div>
+                    <div class="scrollable-content">
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.82rem; color: #0056b3;">Wydzielone frakcje komunalne (Grupa 20 BDO):</p>
+                        <ul style="margin: 5px 0; font-size: 0.82rem;">
+                            <li><span class="waste-badge">20 01 01</span> <strong>Papier i tektura</strong> (czysty, bez tłuszczu)</li>
+                            <li><span class="waste-badge">20 01 39</span> <strong>Tworzywa sztuczne</strong> (opakowania po śniadaniach, butelki)</li>
+                            <li><span class="waste-badge">20 01 40</span> <strong>Metale</strong> (czyste puszki aluminiowe, stalowe)</li>
+                            <li><span class="waste-badge">20 03 01</span> <strong>Niesegregowane (zmieszane) odpady komunalne</strong></li>
+                        </ul>
+
+                        <div class="practice-square" style="border-color: #0056b3; background-color: #f7f9ff;">
+                            <div class="practice-title" style="color:#0056b3;">◼ REGÓŁA CZYSTOŚCI MIASTA OTWOCK</div>
+                            <p style="font-size: 0.8rem; text-align: justify;">
+                                Każdy kosz musi posiadać czytelny, trwały napis określający zbieraną frakcję. Jeśli w czarnym pojemniku <span class="waste-badge">20 03 01</span> kontrola wykryje odpady nadające się do recyklingu lub (co gorsza) odpady niebezpieczne, miasto nakłada karne stawki opłat!
+                            </p>
+                        </div>
+
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-2">Uwagi dot. segregacji socjalnej i stanu koszy komunalnych:</label>
+                            <textarea id="note-2" class="notes-textarea" placeholder="Wpisz np. brak oznaczeń kolorystycznych, kosze stoją na gruncie nieutwardzonym..." oninput="saveNote(2)"></textarea>
+                        </div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container" id="card-3">
+            <div class="flashcard-inner">
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title">Odpady Warsztatowe</div>
+                    <div class="scrollable-content">
+                        <p style="margin-top: 15px; font-size: 1rem; text-align: center;">
+                            <strong>Katalog głównych odpadów</strong> w małym zakładzie samochodowym.
+                        </p>
+                        <p style="margin-top: 15px; font-size: 0.9rem; text-align: center; color: #d90000; font-weight: bold;">
+                            Podział na kody BDO, odpady niebezpieczne (*) oraz zwykłe.
+                        </p>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+                
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title">Kody Odpadów BDO</div>
+                    <div class="scrollable-content">
+                        <div class="waste-group-title" style="color: #d90000;">⚠️ Odpady Niebezpieczne (Z gwiazdką *)</div>
+                        <ul style="margin: 3px 0; font-size: 0.82rem;">
+                            <li><span class="waste-badge hazardous">16 01 07*</span><strong>Zużyte filtry olejowe</strong></li>
+                            <li><span class="waste-badge hazardous">15 02 02*</span><strong>Sorbenty, czyściwo (szmaty zaolejone)</strong></li>
+                            <li><span class="waste-badge hazardous">13 02 05*</span><strong>Mineralne oleje silnikowe i smarowe</strong></li>
+                            <li><span class="waste-badge hazardous">16 01 13*</span><strong>Płyny hamulcowe</strong></li>
+                        </ul>
+
+                        <div class="waste-group-title" style="color: #333;">📦 Odpady Pozostałe / Zwykłe</div>
+                        <ul style="margin: 3px 0; font-size: 0.82rem;">
+                            <li><span class="waste-badge">16 01 03</span><strong>Zużyte opony</strong></li>
+                            <li><span class="waste-badge">16 01 17</span><strong>Metale żelazne (Złom)</strong></li>
+                            <li><span class="waste-badge">16 01 19</span><strong>Tworzywa sztuczne (Zderzaki, osłony)</strong></li>
+                        </ul>
+
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-3">Twoje Notatki / Stan magazynowania odpadów:</label>
+                            <textarea id="note-3" class="notes-textarea" placeholder="Wpisz np. stan zapełnienia beczek, braki w oznaczeniach kodów..." oninput="saveNote(3)"></textarea>
+                        </div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container" id="card-4">
+            <div class="flashcard-inner">
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag" style="background-color: #28a745;">Strona 1 (Praktyka)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title" style="color: #28a745;">3b. Odpady z działalności - Praktycznie</div>
+                    <div class="scrollable-content">
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.85rem; color: #28a745;">Wydzielone Miejsce na Niebezpieczne:</p>
+                        <p style="text-align: justify; margin-bottom: 8px; font-size: 0.85rem;">
+                            Wszystkie odpady technologiczne (płyny, filtry, oleje) muszą być składowane w <span class="legal-highlight">wyznaczonym boksie lub wydzielonym pomieszczeniu magazynowym</span>. Obowiązkowe jest powieszenie dużej, widocznej tablicy informacyjnej z napisem: <strong style="color: d90000;">„ODPADY NIEBEZPIECZNE”</strong>.
+                        </p>
+                        
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.85rem; color: #28a745;">Zasady i Wytyczne Sąsiedztwa:</p>
+                        <p style="text-align: justify; font-size: 0.84rem; margin-bottom: 5px;">
+                            <strong>Czy odpady mogą leżeć obok innych materiałów?</strong><br>
+                            • <span style="color: red; font-weight: bold;">ZAKAZ:</span> Odpady niebezpieczne nie mogą być składowane w bezpośrednim kontakcie z surowcami produkcyjnymi, narzędziami, produktami spożywczymi ani nowymi częściami zamiennymi!<br>
+                            • <span style="color: red; font-weight: bold;">ZAKAZ MIESZANIA:</span> Nie wolno mieszać ze sobą różnych kategorii odpadów niebezpiecznych (np. mieszanie płynu hamulcowego z przepracowanym olejem w jednej beczce dyskwalifikuje odbiór i skutkuje karą). Składuj je w odrębnych pojemnikach.
+                        </p>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+                
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator" style="background-color: #28a745;">Strona 2 (Pozwolenia & Limity)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title">Wymogi Dotyczące Pozwoleń</div>
+                    <div class="scrollable-content">
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.82rem; color: #28a745; margin-bottom: 4px;">Kiedy wymagane jest pozwolenie na przetwarzanie?</p>
+                        <p style="text-align: justify; font-size: 0.82rem; margin-bottom: 8px;">
+                            Jeśli warsztat wyłącznie <strong>wytwarza i magazynuje wstępnie</strong> własne odpady (do czasu odbioru przez firmę z KPO), nie potrzebuje decyzji na przetwarzanie. Jeśli jednak wykonuje operacje odzysku lub unieszkodliwiania (np. używa nagrzewnicy na przepracowany olej):
+                        </p>
+                        
+                        <div style="border: 2px solid #28a745; padding: 6px; font-size: 0.8rem; background-color: #f4fff5; margin-bottom: 8px; line-height: 1.35;">
+                            • <strong>Odpady Niebezpieczne:</strong> Zezwolenie na przetwarzanie wymagane jest <strong>bezwzględnie dla każdej ilości</strong> poddawanej procesom odzysku/unieszkodliwiania (brak progu minimalnego – limit wynosi <span class="legal-highlight">powyżej 0 kg</span>).<br><br>
+                            • <strong>Odpady Zwykłe (Inne niż niebezpieczne):</strong> Zezwolenie wymagane jest zawsze, chyba że dany proces i mała ilość zostały wprost zwolnione w rozporządzeniach wykonawczych Ministra Środowiska dla osób fizycznych lub małych instalacji.
+                        </div>
+
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-4">Stan boksów niebezpiecznych, obecność tablic i separatorów:</label>
+                            <textarea id="note-4" class="notes-textarea" placeholder="Wpisz np. brak tablicy informacyjnej, odpady magazynowane razem z nowymi oponami..." oninput="saveNote(4)"></textarea>
+                        </div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flashcard-container" id="card-5">
+            <div class="flashcard-inner">
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag" style="background-color: #d90000;">Strona 1 (Wymogi)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title" style="color: #d90000;">4. Podstawy Prawne i Wymogi</div>
+                    <div class="scrollable-content">
+                        <p style="margin-top: 10px; font-weight: bold; text-transform: uppercase; font-size: 0.9rem;">Skąd biorą się procedury?</p>
+                        <p style="text-align: justify; font-size: 0.85rem;">
+                            Zestawienie stanowi esencję z państwowych aktów prawnych regulujących gospodarkę odpadami w warsztatach. Określa skąd wynikają kody BDO oraz zasady znakowania.
+                        </p>
+                        <div class="law-box" style="border-color: #d90000; margin-top: 10px;">
+                            <strong>Akty źródłowe podlegające kontroli:</strong>
+                            <div class="law-entry">• <strong>Ustawa o odpadach</strong> (Dz.U. 2013 poz. 21 z późn. zm.)</div>
+                            <div class="law-entry">• <strong>Rozporządzenie Ministra Klimatu</strong> z dnia 11 września 2020 r. w sprawie szczegółowych wymagań dla magazynowania odpadów (Dz.U. 2020 poz. 1742)</div>
+                        </div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+                
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="card-header-actions">
+                        <div class="side-indicator" style="background-color: #d90000;">Strona 2 (Analiza ustaw)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
+                    <div class="card-title">Analiza i Wytyczne</div>
+                    <div class="scrollable-content">
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.8rem; color: #d90000;">1. Pochodzenie Kodów (art. 4 ust. 3 Ustawy o odpadach)</p>
+                        <p style="font-size: 0.8rem; text-align: justify; margin-bottom: 5px;">
+                            Katalog dzieli odpady na grupy. Gwiazdka (*) przy kodzie (np. 16 01 07*) oznacza odpad niebezpieczny ze względu na cechy toksyczne, palne lub rakotwórcze.
+                        </p>
+
+                        <p style="font-weight: bold; text-transform: uppercase; font-size: 0.8rem; color: #d90000;">2. Opisywanie i Etykiety (Rozp. Poz. 1742)</p>
+                        <p style="font-size: 0.8rem; text-align: justify; margin-bottom: 5px;">
+                            Każde opakowanie, beczka lub kontener zawierający odpady niebezpieczne musi posiadać widoczną etykietę z napisem:
+                        </p>
+                        <div style="border: 2px solid #d90000; padding: 5px; font-size: 0.78rem; background-color: #fff5f5; line-height: 1.3;">
+                            <center><strong style="color: #d90000;">ODPADY NIEBEZPIECZNE</strong></center>
+                            • <strong>KOD I RODZAJ:</strong> (np. 13 02 05*)<br>
+                            • <strong>ZAWARTOŚĆ:</strong> Opis szczegółowy (np. przepracowany olej)<br>
+                            • <strong>ADRES I DATA:</strong> Miejsce składowania oraz <span class="legal-highlight">dokładna data rozpoczęcia</span> magazynowania w tym miejscu.
+                        </div>
+
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-5">Uwagi pokontrolne (Etykiety, specyfikacja prawna):</label>
+                            <textarea id="note-5" class="notes-textarea" placeholder="Wpisz np. brak etykiet z datami rozpoczęcia magazynowania, uchybienia formalne..." oninput="saveNote(5)"></textarea>
+                        </div>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <!-- DOLNY PANEL NAWIGACYJNY -->
     <div class="navigation-bar" id="nav-bar" style="display: none;">
         <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">◀ Wstecz</button>
         <button class="nav-btn" id="next-btn" onclick="navigate(1)">Dalej ▶</button>
     </div>
 
     <script>
-        let currentCardIndex = -1; // -1 oznacza menu główne / stronę tytułową
+        let currentCardIndex = -1; // -1 oznacza menu główne
         const mainMenu = document.getElementById('main-menu');
         const cards = document.querySelectorAll('.flashcard-container');
         const navBar = document.getElementById('nav-bar');
@@ -526,7 +746,6 @@
         const nextBtn = document.getElementById('next-btn');
         const appHeader = document.getElementById('app-header');
 
-        // Wywołanie ładowania notatek przy uruchomieniu aplikacji
         window.onload = function() {
             loadAllNotes();
         };
@@ -603,11 +822,14 @@
 
         // GENEROWANIE I EKSPORT CAŁOŚCI DO PLIKU PDF
         function generateAuditPDF() {
-            // Pobieranie aktualnych wartości z pól tekstowych
+            // Pobieranie aktualnych wartości ze wszystkich 6 pól tekstowych
             const note0Text = document.getElementById('note-0').value || "Brak uwag.";
             const note1Text = document.getElementById('note-1').value || "Brak uwag.";
+            const note2Text = document.getElementById('note-2').value || "Brak uwag.";
+            const note3Text = document.getElementById('note-3').value || "Brak uwag.";
+            const note4Text = document.getElementById('note-4').value || "Brak uwag.";
+            const note5Text = document.getElementById('note-5').value || "Brak uwag.";
 
-            // Budowanie struktury wizualnej dokumentu do wydruku PDF
             const pdfContainer = document.createElement('div');
             pdfContainer.style.padding = '30px';
             pdfContainer.style.fontFamily = 'Arial, sans-serif';
@@ -616,59 +838,99 @@
 
             pdfContainer.innerHTML = `
                 <div style="text-align: center; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 30px;">
-                    <h1 style="text-transform: uppercase; margin-bottom: 5px; font-size: 24px;">Oficjalny Protokół Audytowy BDO</h1>
-                    <p style="font-style: italic; font-size: 14px;">Generowany automatycznie z systemu aplikacji ewidencji warsztatowej</p>
+                    <h1 style="text-transform: uppercase; margin-bottom: 5px; font-size: 22px;">Oficjalny Protokół Audytowy BDO</h1>
+                    <p style="font-style: italic; font-size: 13px;">Generowany automatycznie z systemu ewidencji warsztatowej i komunalnej</p>
                 </div>
 
-                <div style="border: 2px solid #000; padding: 20px; margin-bottom: 30px; background-color: #f9f9f9;">
-                    <h2 style="text-transform: uppercase; font-size: 16px; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px;">Dane Podmiotu Kontrolowanego</h2>
-                    <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
-                        <tr><td style="padding: 4px 0; width: 40%;"><strong>Nazwa firmy:</strong></td><td>Mały Zakład Mechaniczny</td></tr>
+                <div style="border: 2px solid #000; padding: 15px; margin-bottom: 25px; background-color: #f9f9f9;">
+                    <h2 style="text-transform: uppercase; font-size: 15px; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px;">Dane Podmiotu Kontrolowanego</h2>
+                    <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                        <tr><td style="padding: 4px 0; width: 45%;"><strong>Nazwa firmy:</strong></td><td>Mały Zakład Mechaniczny</td></tr>
                         <tr><td style="padding: 4px 0;"><strong>Właściciel / Mechanik:</strong></td><td>Piotr Ładnowski</td></tr>
                         <tr><td style="padding: 4px 0;"><strong>Adres działalności:</strong></td><td>ul. Batalionów Chłopskich 1</td></tr>
                         <tr><td style="padding: 4px 0;"><strong>Miejscowość:</strong></td><td>05-400 Otwock</td></tr>
-                        <tr><td style="padding: 4px 0;"><strong>Data sporządzenia:</strong></td><td>${new Date().toLocaleDateString('pl-PL')} r.</td></tr>
+                        <tr><td style="padding: 4px 0;"><strong>Data sporządzenia:</strong></td><td>\${new Date().toLocaleDateString('pl-PL')} r.</td></tr>
                     </table>
                 </div>
 
-                <div style="margin-bottom: 25px; page-break-inside: avoid;">
-                    <h3 style="text-transform: uppercase; font-size: 14px; background: #000; color: #fff; padding: 6px 10px;">1. Sekcja: Identyfikacja Podmiotu (BDO)</h3>
-                    <div style="padding: 10px 5px; font-size: 14px;">
-                        <p><strong>Zweryfikowany Numer Rejestrowy BDO:</strong> <span style="font-size: 16px; font-weight: bold; letter-spacing: 1px;">000159648</span></p>
-                        <p style="margin-top: 5px; font-size: 13px; color: #333;">Wymóg prawny: Umieszczanie numeru BDO na dokumentach firmowych, fakturach i kartach KPO.</p>
-                        <div style="margin-top: 10px; background: #f2f2f2; border-left: 4px solid #000; padding: 10px;">
-                            <strong style="font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px;">Wprowadzone Notatki / Zalecenia z Audytu:</strong>
-                            <p style="white-space: pre-wrap; font-size: 13px;">${note0Text}</p>
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #000; color: #fff; padding: 5px 10px;">1. Sekcja: Identyfikacja Podmiotu (BDO)</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Zweryfikowany Numer Rejestrowy BDO:</strong> <span style="font-weight: bold; letter-spacing: 1px;">000159648</span></p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #000; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Wprowadzone Notatki / Zalecenia:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note0Text}</p>
                         </div>
                     </div>
                 </div>
 
-                <div style="margin-bottom: 25px; page-break-inside: avoid;">
-                    <h3 style="text-transform: uppercase; font-size: 14px; background: #000; color: #fff; padding: 6px 10px;">2. Sekcja: Gospodarka Odpadami Komunalnymi</h3>
-                    <div style="padding: 10px 5px; font-size: 14px;">
-                        <p><strong>Status formalny:</strong> Obowiązek posiadania aktualnej umowy na śmieci komunalne/bytowe (System gminny lub umowa indywidualna z podmiotem w RDR).</p>
-                        <p style="margin-top: 5px;"><strong>Kluczowe rygory techniczne:</strong></p>
-                        <ul style="margin: 5px 0 10px 20px; font-size: 13px;">
-                            <li>Całkowity zakaz wrzucania odpadów warsztatowych/niebezpiecznych do komunalnych.</li>
-                            <li>Wymóg utwardzonego podłoża i zabezpieczenia wiaty kontenerowej.</li>
-                        </ul>
-                        <div style="margin-top: 10px; background: #f2f2f2; border-left: 4px solid #000; padding: 10px;">
-                            <strong style="font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px;">Wprowadzone Notatki / Zalecenia z Audytu:</strong>
-                            <p style="white-space: pre-wrap; font-size: 13px;">${note1Text}</p>
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #000; color: #fff; padding: 5px 10px;">2. Sekcja: Gospodarka Odpadami Komunalnymi (Teoria)</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Status formalny:</strong> Obowiązek posiadania indywidualnej umowy na śmieci bytowe (System lub podmiot wpisany do RDR).</p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #000; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Wprowadzone Notatki / Zalecenia:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note1Text}</p>
                         </div>
                     </div>
                 </div>
 
-                <div style="margin-top: 50px; text-align: center; font-size: 12px; border-top: 1px solid #ccc; padding-top: 15px;">
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #0056b3; color: #fff; padding: 5px 10px;">2b. Sekcja: Rygory Segregacji Komunalnej (BIP Otwock)</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Wymogi techniczne:</strong> Potwierdzono wymóg sytuowania pojemników na płaskim, utwardzonym i nieprzepuszczalnym podłożu.</p>
+                        <p style="margin-top: 3px;"><strong>Kontrola frakcji grupy 20 w Otwocku:</strong> Niebieski (papier 20 01 01), Zielony (szkło), Żółty (tworzywa/metale 20 01 39/40), Brązowy (bio), Czarny (zmieszane 20 03 01).</p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #0056b3; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Stan wdrożenia segregacji miejskiej i infrastruktury:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note2Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #000; color: #fff; padding: 5px 10px;">3. Sekcja: Katalog Głównych Odpadów Warsztatowych</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Kluczowe kody:</strong> Niebezpieczne (16 01 07*, 15 02 02*, 13 02 05*) oraz pozostałe (16 01 03, 16 01 17, 16 01 19).</p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #000; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Wprowadzone Notatki / Stan magazynowania:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note3Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #28a745; color: #fff; padding: 5px 10px;">3b. Sekcja: Odpady z działalności (Wytyczne Składowania i Pozwolenia)</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Zabezpieczenie i Sąsiedztwo:</strong> Kontrola obecności wydzielonego boksu/pomieszczenia z tablicą „ODPADY NIEBEZPIECZNE”. Sprawdzenie bezwzględnego zakazu składowania w bliskim sąsiedztwie materiałów czystych/nowych części oraz zakazu mieszania różnych frakcji płynów niebezpiecznych.</p>
+                        <p style="margin-top: 4px;"><strong>Weryfikacja Pozwoleń na Przetwarzanie:</strong> Odpady niebezpieczne podlegają obowiązkowemu pozwoleniu na przetwarzanie/odzysk dla <span style="font-weight:bold;">każdej ilości (powyżej 0 kg)</span>.</p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #28a745; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Ocena boksów technologicznych, sąsiedztwa i instalacji:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note4Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 13px; background: #d90000; color: #fff; padding: 5px 10px;">4. Sekcja: Zgodność z Ustawą o odpadach & Rozp. Poz. 1742</h3>
+                    <div style="padding: 8px 5px; font-size: 13px;">
+                        <p><strong>Wytyczne etykietowania:</strong> Sprawdzenie obecności urzędowych etykiet zawierających: kod odpadu niebezpiecznego, opis zawartości, dokładny adres i precyzyjną datę rozpoczęcia magazynowania w danym miejscu.</p>
+                        <div style="margin-top: 8px; background: #f2f2f2; border-left: 4px solid #d90000; padding: 8px;">
+                            <strong style="font-size: 11px; text-transform: uppercase; display: block; margin-bottom: 2px;">Wprowadzone Notatki / Stan Wdrożenia Zaleceń Prawnych:</strong>
+                            <p style="white-space: pre-wrap; font-size: 12px;">\${note5Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 35px; text-align: center; font-size: 11px; border-top: 1px solid #ccc; padding-top: 15px;">
                     <p>Protokół sporządzony na urządzeniu mobilnym przez podmiot nadzorujący gospodarkę odpadową.</p>
-                    <p><strong>Podpis audytora:</strong> ......................................................</p>
+                    <p style="margin-top: 15px;"><strong>Podpis audytora:</strong> ......................................................</p>
                 </div>
             `;
 
             // Konfiguracja konwertera html2pdf
             const options = {
                 margin:       10,
-                filename:     'Protokol_Audytowy_Warsztat_Otwock.pdf',
+                filename:     'Pełny_Protokol_Audytowy_Warsztat_Otwock.pdf',
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2, useCORS: true },
                 jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
