@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AUTO ŁADNEX - Fiszki i Audyt Ochrony Środowiska</title>
+    <title>Warsztat - Fiszki BDO i Odpady</title>
     <style>
         /* Reset i ustawienia bazowe dla urządzeń mobilnych */
         * {
@@ -20,155 +20,160 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Blokada przewijania głównego ekranu */
+            overflow: hidden; /* Blokada przewijania całej strony */
         }
 
-        /* Nagłówek zakładu */
+        /* Nagłówek */
         header {
             text-align: center;
             padding: 12px 10px;
             border-bottom: 2px solid #000000;
             background-color: #ffffff;
-        }
-
-        header h1 {
-            font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
+            font-size: 0.95rem;
             letter-spacing: 0.5px;
         }
 
-        header p {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            margin-top: 2px;
-        }
-
-        /* Główny kontener na treść - przewijalny */
+        /* Główny kontener na fiszkę - zajmuje dostępną przestrzeń */
         .main-content {
             flex: 1;
-            overflow-y: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             padding: 15px;
             background-color: #ffffff;
-            -webkit-overflow-scrolling: touch;
+            position: relative;
         }
 
-        /* INTERAKTYWNY SPIS TREŚCI */
-        .table-of-contents {
-            border: 2px solid #000000;
-            padding: 12px;
-            margin-bottom: 25px;
-            background-color: #ffffff;
+        /* Kontener obracanej fiszki */
+        .flashcard-container {
+            width: 100%;
+            height: 100%;
+            max-width: 400px;
+            max-height: 520px;
+            perspective: 1000px;
+            display: none; /* Sterowane przez JS */
         }
 
-        .toc-title {
-            font-size: 0.95rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            text-align: center;
-            border-bottom: 1px solid #000000;
-            padding-bottom: 4px;
-        }
-
-        .toc-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .toc-item {
-            margin-bottom: 6px;
-        }
-
-        .toc-link {
-            color: #000000;
-            text-decoration: none;
-            font-size: 0.9rem;
+        .flashcard-container.active {
             display: block;
-            padding: 4px 0;
-            font-weight: bold;
         }
 
-        .toc-link:active {
-            background-color: #000000;
-            color: #ffffff;
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: left;
+            transition: transform 0.4s ease-in-out;
+            transform-style: preserve-3d;
         }
 
-        /* STRUKTURA FISZEK W OKNIE PRZEWIJALNYM */
-        .flashcard-box {
+        /* Klasa odpowiadająca za fizyczny obrót karty */
+        .flashcard-container.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Wspólny styl dla strony 1 i 2 */
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
             border: 3px solid #000000;
-            background: #ffffff;
+            background-color: #ffffff;
+            display: flex;
+            flex-direction: column;
             padding: 15px;
-            margin-bottom: 25px;
-            scroll-margin-top: 10px; /* Margines przy przewijaniu ze spisu treści */
         }
 
-        .card-header {
-            font-size: 1.1rem;
+        /* TYŁ KARTY (Strona 2) */
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* PRZEWIJALNA SEKCJA DLA DŁUGICH TEKSTÓW */
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto; /* Włącza przewijanie wewnątrz fiszki */
+            padding-right: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Stylizacja paska przewijania (subtelna, czarna) */
+        .scrollable-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #000000;
+        }
+
+        /* Elementy tekstowe wewnątrz fiszek */
+        .card-title {
+            font-size: 1.15rem;
             font-weight: bold;
             text-transform: uppercase;
             border-bottom: 2px solid #000000;
             padding-bottom: 5px;
+            margin-bottom: 5px;
+        }
+
+        .side-indicator {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #000000;
+            color: #ffffff;
+            padding: 2px 6px;
+            align-self: flex-start;
             margin-bottom: 10px;
         }
 
-        .side-title {
-            font-size: 0.8rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background: #000000;
-            color: #ffffff;
-            padding: 2px 6px;
-            display: inline-block;
+        .side-indicator.front-tag {
+            background-color: #666666;
+        }
+
+        .tap-instruction {
+            text-align: center;
+            font-size: 0.75rem;
+            font-style: italic;
+            border-top: 1px dashed #000000;
+            padding-top: 8px;
             margin-top: 10px;
-            margin-bottom: 8px;
-        }
-
-        .side-title.front {
-            background: #666666;
-        }
-
-        .card-body-text {
-            font-size: 0.9rem;
-            line-height: 1.4;
-            text-align: justify;
-        }
-
-        /* SEKCJA Z AKTAMI I AUDYTEM */
-        .audit-section {
-            font-size: 0.85rem;
-            border-left: 3px solid #000000;
-            padding-left: 8px;
-            margin: 12px 0;
-        }
-
-        .audit-entry {
-            margin-bottom: 8px;
-        }
-
-        .audit-label {
             font-weight: bold;
             text-transform: uppercase;
-            font-size: 0.8rem;
-            display: block;
         }
 
+        /* Wygląd list i sekcji prawnych */
         ul {
             padding-left: 18px;
             margin: 8px 0;
         }
 
         li {
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
         }
 
-        /* CZARNO-BIAŁY KWADRAT PRAKTYKI DLA MECHANIKA */
+        .law-box {
+            border-left: 3px solid #000000;
+            padding-left: 8px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+        }
+
+        .law-entry {
+            margin-bottom: 8px;
+        }
+
+        /* CZARNO-BIAŁY KWADRAT PRAKTYKI */
         .practice-square {
             border: 3px dashed #000000;
-            background-color: #ffffff;
             padding: 12px;
-            margin-top: 15px;
+            margin-top: 12px;
+            background-color: #ffffff;
         }
 
         .practice-title {
@@ -178,156 +183,203 @@
             margin-bottom: 6px;
         }
 
-        /* Przycisk powrotu do spisu treści na dole każdej fiszki */
-        .back-to-toc {
-            display: inline-block;
-            margin-top: 12px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
+        /* DOLNA SEKCOJA NAWIGACYJNA Z PRZYCISKAMI */
+        .navigation-bar {
+            display: flex;
+            width: 100%;
+            height: 70px;
+            border-top: 2px solid #000000;
+            background-color: #ffffff;
+        }
+
+        .nav-btn {
+            flex: 1;
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            font-size: 1.1rem;
             font-weight: bold;
-            color: #666666;
-            text-decoration: underline;
+            text-transform: uppercase;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.1s;
+        }
+
+        /* Linia dzieląca przyciski na pół */
+        .nav-btn:not(:last-child) {
+            border-right: 2px solid #000000;
+        }
+
+        /* Efekt wciśnięcia przycisku na telefonie */
+        .nav-btn:active {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        /* Stan zablokowanego przycisku (szary i nieaktywny) */
+        .nav-btn:disabled {
+            color: #cccccc;
+            background-color: #ffffff;
+            cursor: not-allowed;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>ATO ŁADNEX</h1>
-        <p>Piotr Ładnowski — Gospodarka Odpadami</p>
+        Ewidencja Warsztatowa — Fiszki
     </header>
 
-    <div class="main-content" id="scroll-container">
+    <div class="main-content">
 
-        <nav class="table-of-contents" id="spis-tresci">
-            <div class="toc-title">Interaktywny Spis Treści</div>
-            <ul class="toc-list">
-                <li class="toc-item"><a class="toc-link" href="#fiszka-bdo">1. Dane Rejestrowe BDO</a></li>
-                <li class="toc-item"><a class="toc-link" href="#fiszka-komunalne">2. Odpady Komunalne i Umowy</a></li>
-                <li class="toc-item"><a class="toc-link" href="#fiszka-ewidencja">3. Ewidencja i Ryzyko Kar (Audyt)</a></li>
-                <li class="toc-item"><a class="toc-link" href="#fiszka-serwis">4. Odpowiedzialność Firm i Serwisów</a></li>
-            </ul>
-        </nav>
-
-
-        <div class="flashcard-box" id="fiszka-bdo">
-            <div class="card-header">1. Identyfikacja Podmiotu BDO</div>
-            
-            <div class="side-title front">Strona 1 (Przód)</div>
-            <div class="card-body-text">
-                <strong>Numer rejestrowy BDO oraz dane rejestrowe podmiotu</strong> — Autoryzowany Towarzysz Odpadowy ATO ŁADNEX Piotr Ładnowski.
-            </div>
-            
-            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
-            <div class="card-body-text">
-                <p style="font-size: 1.1rem; text-align: center; margin: 10px 0;">
-                    Numer rejestrowy BDO:<br>
-                    <strong style="font-size: 1.4rem; letter-spacing: 1px;">000159648</strong>
-                </p>
-                <div class="audit-section">
-                    <span class="audit-label">◼ Ważna uwaga z audytu ochrony środowiska:</span>
-                    Każda zmiana danych firmy lub wytworzenie odpadu o kodzie, który nie został wcześniej ujęty w Twoim rejestrze BDO, <strong>wymaga bezwzględnej aktualizacji wpisu w terminie 30 dni</strong> od dnia zmiany lub wytworzenia nowego odpadu! [cite: 53, 55]
+        <!-- ================= FISZKA 1 ================= -->
+        <div class="flashcard-container active" id="card-0">
+            <div class="flashcard-inner">
+                
+                <!-- Strona 1 -->
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                    <div class="card-title">Identyfikacja Podmiotu</div>
+                    <div class="scrollable-content" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+                        <p><strong>Numer rejestrowy BDO</strong><br><br>Mały Zakład Mechaniczny</p>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
+                
+                <!-- Strona 2 -->
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                    <div class="card-title">Dane Rejestrowe</div>
+                    <div class="scrollable-content">
+                        <p style="font-size: 1.15rem; text-align: center; margin-top: 20px;">
+                            Numer rejestrowy BDO:<br>
+                            <strong style="font-size: 1.4rem; letter-spacing: 1px;">000159648</strong>
+                        </p>
+                        <p style="margin-top: 25px; font-size: 0.9rem; text-align: justify;">
+                            <strong>Ważne:</strong> Numer ten musi być bezwzględnie umieszczany na wszystkich dokumentach sporządzanych w związku z prowadzoną działalnością (faktury, paragony fiskalne, karty przekazania odpadów KPO, ewidencja odpadowa).
+                        </p>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+
             </div>
-            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
 
-        <div class="flashcard-box" id="fiszka-komunalne">
-            <div class="card-header">2. Odpady Komunalne i Umowy</div>
-            
-            <div class="side-title front">Strona 1 (Przód)</div>
-            <div class="card-body-text">
-                <strong>Gospodarka odpadami komunalnymi w warsztacie</strong> — Obowiązki prawne w nieruchomościach niezamieszkałych, umowy oraz rygory podziału odpadów BIO[cite: 15, 102].
-            </div>
-            
-            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
-            <div class="card-body-text">
-                <p><strong>Wymogi formalne dla ATO ŁADNEX:</strong> Masz absolutny obowiązek posiadania <strong>umowy na odbiór odpadów komunalnych</strong>[cite: 102]. W zależności od regionu:</p>
-                <ul>
-                    <li><strong>Wariant A:</strong> Umowa z gminą w ramach systemu gminnego dla firm (jeśli gmina tak zdecydowała)[cite: 102].</li>
-                    <li><strong>Wariant B:</strong> Indywidualna umowa z podmiotem prywatnym, który posiada <strong>obowiązkowy wpis do Rejestru Działalności Regulowanej (RDR)</strong>[cite: 102].</li>
-                </ul>
+        <!-- ================= FISZKA 2 ================= -->
+        <div class="flashcard-container" id="card-1">
+            <div class="flashcard-inner">
+                
+                <!-- Strona 1 -->
+                <div class="card-face card-front" onclick="flipCard(this)">
+                    <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                    <div class="card-title">Odpady Komunalne</div>
+                    <div class="scrollable-content">
+                        <p style="margin-top: 15px; font-size: 1rem; text-align: center;">
+                            <strong>Gospodarka odpadami komunalnymi</strong> w nieruchomości niezamieszkałej (warsztat mechaniczny).
+                        </p>
+                        <p style="margin-top: 15px; font-size: 0.9rem; text-align: center; color: #444;">
+                            Wymogi formalne, rygory segregacji oraz kryteria lokalizacyjne kontenerów.
+                        </p>
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
+                </div>
+                
+                <!-- Strona 2 -->
+                <div class="card-face card-back" onclick="flipCard(this)">
+                    <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                    <div class="card-title">Wymogi i Prawo</div>
+                    <div class="scrollable-content">
+                        
+                        <p><strong>Główny wymóg formalny:</strong> Warsztat ma bezwzględny obowiązek posiadania <strong>umowy na odbiór odpadów komunalnych</strong>. Rozwiązanie zależy od Twojej gminy:</p>
+                        <ul>
+                            <li><strong>Wariant A:</strong> Umowa w ramach <strong>systemu gminnego dla nieruchomości niezamieszkałych</strong> (jeśli gmina podjęła uchwałę o objęciu firm systemem).</li>
+                            <li><strong>Wariant B:</strong> <strong>Indywidualna umowa</strong> podpisana bezpośrednio z podmiotem prywatnym, posiadającym <strong>obowiązkowy wpis do RDR (Rejestru Działalności Regulowanej)</strong> w gminie[cite: 1, 2].</li>
+                        </ul>
 
-                <div class="audit-section">
-                    <span class="audit-label">◼ Uwaga audytowa — Frakcje BIO:</span>
-                    Zwróć uwagę na dokładne opisy frakcji w umowach[cite: 102]. Prawo wymusza podział na **zwykłe "BIO"** (odpady socjalne bez resztek mięsa) oraz **"BIO-gastronomia"** (odpowiednie dla firm/gastronomii)[cite: 102, 165, 166, 167]. Niewłaściwe przypisanie kodów (np. wpisanie kodu odpadów z ogrodów 20 02 01 zamiast kuchennych 20 01 08) może zostać uznane za **złamanie zasad selektywnego zbierania**[cite: 102, 106].
+                        <p style="margin-top: 10px;"><strong>Na co zwrócić uwagę w zakładzie (Kontrole):</strong></p>
+                        <ul>
+                            <li><strong>Całkowity zakaz mieszania:</strong> Niedopuszczalne jest wrzucanie odpadów komunalnych (socjalnych) do pojemników z odpadami niebezpiecznymi i warsztatowymi! Mieszanie grozi <strong>drastycznymi karami finansowymi</strong> od WIOŚ[cite: 1, 2].</li>
+                            <li><strong>Lokalizacja pojemników:</strong> Miejsce na kontenery musi mieć <strong>utwardzone podłoże</strong>, osłonę (wiatę/boks) oraz <strong>zapewniony dojazd dla pojazdów technicznych</strong>[cite: 1, 2].</li>
+                            <li><strong>Dokumentacja:</strong> Należy bezterminowo przechowywać <strong>umowę oraz faktury</strong> za odbiór odpadów do kontroli[cite: 1, 2].</li>
+                        </ul>
+
+                        <p style="margin-top: 10px;"><strong>Pełne Podstawy Prawne (Wszystkie Akty):</strong></p>
+                        <div class="law-box">
+                            <div class="law-entry">
+                                <strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada <strong>obowiązek zawarcia umowy</strong> na śmieci i reguluje rejestr RDR[cite: 1, 2].
+                            </div>
+                            <div class="law-entry">
+                                <strong>2. Ustawa z dnia 14 grudnia 2012 r. o odpadach</strong> — wprowadza ogólny <strong>zakaz mieszania poszczególnych rodzajów odpadów</strong> i określa odpowiedzialność[cite: 1, 2].
+                            </div>
+                            <div class="law-entry">
+                                <strong>3. Rozporządzenie Ministra Klimatu z dnia 11 września 2020 r. w sprawie szczegółowych warunków magazynowania odpadów</strong> — rygory dotyczące <strong>zabezpieczenia miejsca magazynowania</strong> i etykietowania[cite: 1, 2].
+                            </div>
+                            <div class="law-entry">
+                                <strong>4. Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 r. w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie</strong> — parametry miejsc gromadzenia odpadów (<strong>utwardzenie, wiaty, odległości</strong>)[cite: 1, 2].
+                            </div>
+                        </div>
+
+                        <!-- KWADRAT Z PRAKTYKĄ DLA MECHANIKA -->
+                        <div class="practice-square" onclick="event.stopPropagation();">
+                            <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK![cite: 1, 2]</div>
+                            <ul>
+                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, suchy papier biurowy[cite: 1, 2].</li>
+                                <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong>[cite: 1, 2]</li>
+                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat i czyściwa, zużytych filtrów (oleju, paliwa), części z aut, puszek po sprayach/zmywaczach czy zużytych sorbentów[cite: 1, 2].</li>
+                                <li>Każdy odpad z napraw odkładaj <strong>tylko do specjalnie oznaczonych pojemników warsztatowych</strong> (zgodnie z BDO)[cite: 1, 2].</li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
 
-                <p><strong>Techniczne wymagania lokalizacyjne:</strong></p>
-                <ul>
-                    <li>Pojemniki muszą stać na **wydzielonym i utwardzonym podłożu**[cite: 102].</li>
-                    <li>Muszą posiadać **osłonę (wiatę lub boks)** i zapewniony bezpieczny dojazd dla technicznych pojazdów oczyszczania[cite: 102].</li>
-                    <li>Miejsce magazynowania musi być **wyraźnie oznaczone adresem nieruchomości**.</li>
-                </ul>
             </div>
-            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
         </div>
 
-
-        <div class="flashcard-box" id="fiszka-ewidencja">
-            <div class="card-header">3. Ewidencja i Ryzyko Kar</div>
-            
-            <div class="side-title front">Strona 1 (Przód)</div>
-            <div class="card-body-text">
-                <strong>Karty KPO, KEO oraz rygor odpowiedzialności karnej</strong> — Jak prowadzić dokumentację odpadową warsztatu, aby uniknąć kar podczas kontroli[cite: 59, 68, 73, 91].
-            </div>
-            
-            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
-            <div class="card-body-text">
-                <p><strong>Zasady prowadzenia ewidencji w ATO ŁADNEX:</strong></p>
-                <ul>
-                    <li>Odpowiedzialność za poprawność i rzetelność danych w kartach KPO (Karty Przekazania Odpadów) oraz KEO (Karty Ewidencji Odpadów) leży **całkowicie po stronie Twojej firmy**[cite: 59, 68, 90].</li>
-                    <li>Dokumenty odpadowe (KPO i KEO) masz obowiązek **przechowywać przez okres 5 lat**[cite: 92].</li>
-                    <li>**Wskazówka audytowa:** Dla czystych odpadów komunalnych firma nie ma obowiązku wystawiania kart KPO przez system BDO (nie wystawia się KPO na odpady z grupy 20)[cite: 82, 88].</li>
-                </ul>
-
-                <div class="audit-section" style="border-left-color: #000000;">
-                    <span class="audit-label" style="color: #000000; font-weight: bold;">⚠️ KARY FINANSOWE (WYCIĄG Z AUDYTU):</span>
-                    Za całkowity **brak prowadzenia ewidencji odpadów** lub za prowadzenie jej w sposób **nierzetelny i niezgodny ze stanem faktycznym**, przepisy przewidują administracyjną karę pieniężną w wysokości **od 1 000 zł aż do 1 000 000 zł**! 
-                </div>
-
-                <div class="audit-section">
-                    <span class="audit-label">◼ Rygor ochrony środowiska:</span>
-                    Bezwzględny, ustawowy **zakaz mieszania różnych rodzajów odpadów**[cite: 97]. Wrzucenie odpadu niebezpiecznego (np. filtra oleju) do odpadu komunalnego jest natychmiast kwalifikowane jako ciężkie naruszenie prawa ochrony środowiska[cite: 97].
-                </div>
-            </div>
-            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
-        </div>
-
-
-        <div class="flashcard-box" id="fiszka-serwis">
-            <div class="card-header">4. Podmioty Zewnętrzne i Serwisy</div>
-            
-            <div class="side-title front">Strona 1 (Przód)</div>
-            <div class="card-body-text">
-                <strong>Odpowiedzialność za odpady wytwarzane przez firmy serwisowe i sprzątające</strong> na terenie Twojego zakładu[cite: 17, 58, 63, 135].
-            </div>
-            
-            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
-            <div class="card-body-text">
-                <p><strong>Kwestie umowne z podwykonawcami:</strong></p>
-                <ul>
-                    <li>Jeśli wynajmujesz zewnętrzną firmę (np. do sprzątania, serwisu urządzeń), odpady wytworzone w ramach ich usługi **stanowią własność tej firmy wykonującej usługę** – chyba że umowa stanowi inaczej.</li>
-                    <li>**Zalecenie z audytu:** W umowach z firmami zewnętrznymi musisz **jasno i precyzyjnie uregulować kwestię odpowiedzialności za odpady specjalistyczne** (np. zużyte opakowania po silnej chemii, przeterminowane środki czyszczące), które nie są odpadami komunalnymi[cite: 58, 63].</li>
-                    <li>Jeśli podmioty zewnętrzne magazynują swoje odpady na Twoim terenie (nawet tymczasowo), powinny posiadać do tego **tytuł prawny jasno określony w umowie** (np. zapis o dzierżawie powierzchni lub uregulowany zapis o współpracy)[cite: 135, 138].</li>
-                </ul>
-
-                <div class="practice-square">
-                    <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
-                    <ul style="margin-bottom: 0;">
-                        <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, zużyty papier biurowy.</li>
-                        <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
-                        <li><strong>Kategorycznie WYELIMINUJ i ogranicz trafianie tam:</strong> zaolejonych szmat, zużytego czyściwa, filtrów oleju/paliwa, zdemontowanych części samochodowych, puszek po sprayach, zmywaczach oraz zużytych sorbentów.</li>
-                        <li>Każdy odpad techniczny odkładaj <strong>wyłącznie do specjalnie oznaczonych, dedykowanych pojemników warsztatowych</strong> powiązanych z Twoim numerem BDO.</li>
-                    </ul>
-                </div>
-            </div>
-            <div><a class="back-to-toc" href="#spis-tresci">↑ Powrót do spisu treści</a></div>
-        </div>
+        <!-- TU MOŻESZ DOPISAĆ KOLEJNĄ FISZKĘ KOPIUJĄC BLOK <div class="flashcard-container" id="card-2">... -->
 
     </div>
+
+    <!-- DOLNY PANEL NAWIGACYJNY -->
+    <div class="navigation-bar">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>◀ Wstecz</button>
+        <button class="nav-btn" id="next-btn" onclick="navigate(1)">Dalej ▶</button>
+    </div>
+
+    <script>
+        let currentCardIndex = 0;
+        const cards = document.querySelectorAll('.flashcard-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        // Funkcja odpowiadająca za obracanie karty przód/tył
+        function flipCard(faceElement) {
+            // Znajduje główny kontener aktualnej fiszki i przełącza klasę 'flipped'
+            const container = faceElement.closest('.flashcard-container');
+            container.classList.toggle('flipped');
+        }
+
+        // Funkcja nawigacji przyciskami Dalej / Wstecz
+        function navigate(direction) {
+            // Ukrywamy obecną kartę i resetujemy jej obrót do stanu początkowego (przód)
+            cards[currentCardIndex].classList.remove('active');
+            cards[currentCardIndex].classList.remove('flipped');
+
+            // Zmiana indeksu
+            currentCardIndex += direction;
+
+            // Pokazujemy nową kartę
+            cards[currentCardIndex].classList.add('active');
+
+            // Aktualizacja stanu przycisków na dole ekranu
+            prevBtn.disabled = (currentCardIndex === 0);
+            nextBtn.disabled = (currentCardIndex === cards.length - 1);
+        }
+    </script>
 
 </body>
 </html>
