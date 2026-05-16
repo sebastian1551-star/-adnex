@@ -35,7 +35,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Główny kontener na fiszkę - zajmuje dostępną przestrzeń */
+        /* Główny kontener zajmujący dostępną przestrzeń */
         .main-content {
             flex: 1;
             display: flex;
@@ -44,16 +44,63 @@
             padding: 15px;
             background-color: #ffffff;
             position: relative;
+            overflow-y: auto; /* Potrzebne dla przewijania menu na mniejszych ekranach */
         }
 
-        /* Kontener obracanej fiszki */
+        /* ================= MENU GŁÓWNE ================= */
+        .menu-container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-self: flex-start; /* Pozwala na naturalne przewijanie listy */
+            padding: 10px 0;
+        }
+
+        .menu-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 8px;
+            border-bottom: 2px dashed #000000;
+            padding-bottom: 8px;
+        }
+
+        .menu-item {
+            background-color: #ffffff;
+            border: 3px solid #000000;
+            padding: 16px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.1s;
+        }
+
+        .menu-item:active {
+            background-color: #000000;
+            color: #ffffff;
+        }
+
+        .menu-item::after {
+            content: "➔";
+            font-size: 1.1rem;
+        }
+
+        /* ================= KONTENER FISZEK ================= */
         .flashcard-container {
             width: 100%;
             height: 100%;
             max-width: 400px;
             max-height: 520px;
             perspective: 1000px;
-            display: none; /* Sterowane przez JS */
+            display: none; 
         }
 
         .flashcard-container.active {
@@ -69,7 +116,6 @@
             transform-style: preserve-3d;
         }
 
-        /* Klasa odpowiadająca za fizyczny obrót karty */
         .flashcard-container.flipped .flashcard-inner {
             transform: rotateY(180deg);
         }
@@ -93,25 +139,44 @@
             transform: rotateY(180deg);
         }
 
-        /* PRZEWIJALNA SEKCJA DLA DŁUGICH TEKSTÓW */
-        .scrollable-content {
-            flex: 1;
-            overflow-y: auto; /* Włącza przewijanie wewnątrz fiszki */
-            padding-right: 5px;
-            margin-top: 10px;
-            font-size: 0.9rem;
-            line-height: 1.4;
+        /* Górna sekcja kontrolna wewnątrz fiszki */
+        .card-header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
         }
 
-        /* Stylizacja paska przewijania (subtelna, czarna) */
-        .scrollable-content::-webkit-scrollbar {
-            width: 4px;
-        }
-        .scrollable-content::-webkit-scrollbar-thumb {
+        /* Przycisk powrotu do menu na karcie */
+        .back-to-menu-btn {
             background-color: #000000;
+            color: #ffffff;
+            border: none;
+            padding: 4px 10px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .back-to-menu-btn:active {
+            background-color: #444444;
         }
 
         /* Elementy tekstowe wewnątrz fiszek */
+        .side-indicator {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background-color: #000000;
+            color: #ffffff;
+            padding: 4px 8px;
+        }
+
+        .side-indicator.front-tag {
+            background-color: #666666;
+        }
+
         .card-title {
             font-size: 1.15rem;
             font-weight: bold;
@@ -121,19 +186,22 @@
             margin-bottom: 5px;
         }
 
-        .side-indicator {
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-            background-color: #000000;
-            color: #ffffff;
-            padding: 2px 6px;
-            align-self: flex-start;
-            margin-bottom: 10px;
+        /* Przewijalna sekcja dla długich tekstów */
+        .scrollable-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            line-height: 1.4;
         }
 
-        .side-indicator.front-tag {
-            background-color: #666666;
+        /* Stylizacja paska przewijania */
+        .scrollable-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .scrollable-content::-webkit-scrollbar-thumb {
+            background-color: #000000;
         }
 
         .tap-instruction {
@@ -168,7 +236,7 @@
             margin-bottom: 8px;
         }
 
-        /* CZARNO-BIAŁY KWADRAT PRAKTYKI */
+        /* Czarno-biały kwadrat praktyki */
         .practice-square {
             border: 3px dashed #000000;
             padding: 12px;
@@ -183,7 +251,7 @@
             margin-bottom: 6px;
         }
 
-        /* DOLNA SEKCOJA NAWIGACYJNA Z PRZYCISKAMI */
+        /* ================= DOLNA SEKCJA NAWIGACYJNA ================= */
         .navigation-bar {
             display: flex;
             width: 100%;
@@ -207,18 +275,15 @@
             transition: background-color 0.1s;
         }
 
-        /* Linia dzieląca przyciski na pół */
         .nav-btn:not(:last-child) {
             border-right: 2px solid #000000;
         }
 
-        /* Efekt wciśnięcia przycisku na telefonie */
         .nav-btn:active {
             background-color: #000000;
             color: #ffffff;
         }
 
-        /* Stan zablokowanego przycisku (szary i nieaktywny) */
         .nav-btn:disabled {
             color: #cccccc;
             background-color: #ffffff;
@@ -228,19 +293,30 @@
 </head>
 <body>
 
-    <header>
-        Ewidencja Warsztatowa — Fiszki
+    <header id="app-header">
+        Ewidencja Warsztatowa — Menu
     </header>
 
     <div class="main-content">
 
+        <!-- ================= SPIS TREŚCI (MENU STARTOWE) ================= -->
+        <div class="menu-container" id="main-menu">
+            <div class="menu-title">Wybierz temat fiszki</div>
+            <button class="menu-item" onclick="openFlashcard(0)">1. Identyfikacja Podmiotu</button>
+            <button class="menu-item" onclick="openFlashcard(1)">2. Odpady Komunalne</button>
+            <!-- Tutaj automatycznie dodadzą się kolejne pozycje, jeśli skopiujesz kolejne fiszki -->
+        </div>
+
         <!-- ================= FISZKA 1 ================= -->
-        <div class="flashcard-container active" id="card-0">
+        <div class="flashcard-container" id="card-0">
             <div class="flashcard-inner">
                 
                 <!-- Strona 1 -->
                 <div class="card-face card-front" onclick="flipCard(this)">
-                    <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
                     <div class="card-title">Identyfikacja Podmiotu</div>
                     <div class="scrollable-content" style="display: flex; align-items: center; justify-content: center; text-align: center;">
                         <p><strong>Numer rejestrowy BDO</strong><br><br>Mały Zakład Mechaniczny</p>
@@ -250,7 +326,10 @@
                 
                 <!-- Strona 2 -->
                 <div class="card-face card-back" onclick="flipCard(this)">
-                    <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                    <div class="card-header-actions">
+                        <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
                     <div class="card-title">Dane Rejestrowe</div>
                     <div class="scrollable-content">
                         <p style="font-size: 1.15rem; text-align: center; margin-top: 20px;">
@@ -274,7 +353,10 @@
                 
                 <!-- Strona 1 -->
                 <div class="card-face card-front" onclick="flipCard(this)">
-                    <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                    <div class="card-header-actions">
+                        <div class="side-indicator front-tag">Strona 1 (Przód)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
                     <div class="card-title">Odpady Komunalne</div>
                     <div class="scrollable-content">
                         <p style="margin-top: 15px; font-size: 1rem; text-align: center;">
@@ -289,47 +371,50 @@
                 
                 <!-- Strona 2 -->
                 <div class="card-face card-back" onclick="flipCard(this)">
-                    <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                    <div class="card-header-actions">
+                        <div class="side-indicator">Strona 2 (Rozwinięcie)</div>
+                        <button class="back-to-menu-btn" onclick="showMenu(event)">Menu ☰</button>
+                    </div>
                     <div class="card-title">Wymogi i Prawo</div>
                     <div class="scrollable-content">
                         
                         <p><strong>Główny wymóg formalny:</strong> Warsztat ma bezwzględny obowiązek posiadania <strong>umowy na odbiór odpadów komunalnych</strong>. Rozwiązanie zależy od Twojej gminy:</p>
                         <ul>
                             <li><strong>Wariant A:</strong> Umowa w ramach <strong>systemu gminnego dla nieruchomości niezamieszkałych</strong> (jeśli gmina podjęła uchwałę o objęciu firm systemem).</li>
-                            <li><strong>Wariant B:</strong> <strong>Indywidualna umowa</strong> podpisana bezpośrednio z podmiotem prywatnym, posiadającym <strong>obowiązkowy wpis do RDR (Rejestru Działalności Regulowanej)</strong> w gminie[cite: 1, 2].</li>
+                            <li><strong>Wariant B:</strong> <strong>Indywidualna umowa</strong> podpisana bezpośrednio z podmiotem prywatnym, posiadającym <strong>obowiązkowy wpis do RDR (Rejestru Działalności Regulowanej)</strong> w gminie.</li>
                         </ul>
 
                         <p style="margin-top: 10px;"><strong>Na co zwrócić uwagę w zakładzie (Kontrole):</strong></p>
                         <ul>
-                            <li><strong>Całkowity zakaz mieszania:</strong> Niedopuszczalne jest wrzucanie odpadów komunalnych (socjalnych) do pojemników z odpadami niebezpiecznymi i warsztatowymi! Mieszanie grozi <strong>drastycznymi karami finansowymi</strong> od WIOŚ[cite: 1, 2].</li>
-                            <li><strong>Lokalizacja pojemników:</strong> Miejsce na kontenery musi mieć <strong>utwardzone podłoże</strong>, osłonę (wiatę/boks) oraz <strong>zapewniony dojazd dla pojazdów technicznych</strong>[cite: 1, 2].</li>
-                            <li><strong>Dokumentacja:</strong> Należy bezterminowo przechowywać <strong>umowę oraz faktury</strong> za odbiór odpadów do kontroli[cite: 1, 2].</li>
+                            <li><strong>Całkowity zakaz mieszania:</strong> Niedopuszczalne jest wrzucanie odpadów komunalnych (socjalnych) do pojemników z odpadami niebezpiecznymi i warsztatowymi! Mieszanie grozi <strong>drastycznymi karami finansowymi</strong> od WIOŚ.</li>
+                            <li><strong>Lokalizacja pojemników:</strong> Miejsce na kontenery musi mieć <strong>utwardzone podłoże</strong>, osłonę (wiatę/boks) oraz <strong>zapewniony dojazd dla pojazdów technicznych</strong>.</li>
+                            <li><strong>Dokumentacja:</strong> Należy bezterminowo przechowywać <strong>umowę oraz faktury</strong> za odbiór odpadów do kontroli.</li>
                         </ul>
 
                         <p style="margin-top: 10px;"><strong>Pełne Podstawy Prawne (Wszystkie Akty):</strong></p>
                         <div class="law-box">
                             <div class="law-entry">
-                                <strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada <strong>obowiązek zawarcia umowy</strong> na śmieci i reguluje rejestr RDR[cite: 1, 2].
+                                <strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada <strong>obowiązek zawarcia umowy</strong> na śmieci i reguluje rejestr RDR.
                             </div>
                             <div class="law-entry">
-                                <strong>2. Ustawa z dnia 14 grudnia 2012 r. o odpadach</strong> — wprowadza ogólny <strong>zakaz mieszania poszczególnych rodzajów odpadów</strong> i określa odpowiedzialność[cite: 1, 2].
+                                <strong>2. Ustawa z dnia 14 grudnia 2012 r. o odpadach</strong> — wprowadza ogólny <strong>zakaz mieszania poszczególnych rodzajów odpadów</strong> i określa odpowiedzialność.
                             </div>
                             <div class="law-entry">
-                                <strong>3. Rozporządzenie Ministra Klimatu z dnia 11 września 2020 r. w sprawie szczegółowych warunków magazynowania odpadów</strong> — rygory dotyczące <strong>zabezpieczenia miejsca magazynowania</strong> i etykietowania[cite: 1, 2].
+                                <strong>3. Rozporządzenie Ministra Klimatu z dnia 11 września 2020 r. w sprawie szczegółowych warunków magazynowania odpadów</strong> — rygory dotyczące <strong>zabezpieczenia miejsca magazynowania</strong> i etykietowania.
                             </div>
                             <div class="law-entry">
-                                <strong>4. Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 r. w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie</strong> — parametry miejsc gromadzenia odpadów (<strong>utwardzenie, wiaty, odległości</strong>)[cite: 1, 2].
+                                <strong>4. Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 r. w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie</strong> — parametry miejsc gromadzenia odpadów (<strong>utwardzenie, wiaty, odległości</strong>).
                             </div>
                         </div>
 
                         <!-- KWADRAT Z PRAKTYKĄ DLA MECHANIKA -->
                         <div class="practice-square" onclick="event.stopPropagation();">
-                            <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK![cite: 1, 2]</div>
+                            <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
                             <ul>
-                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, suchy papier biurowy[cite: 1, 2].</li>
-                                <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong>[cite: 1, 2]</li>
-                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat i czyściwa, zużytych filtrów (oleju, paliwa), części z aut, puszek po sprayach/zmywaczach czy zużytych sorbentów[cite: 1, 2].</li>
-                                <li>Każdy odpad z napraw odkładaj <strong>tylko do specjalnie oznaczonych pojemników warsztatowych</strong> (zgodnie z BDO)[cite: 1, 2].</li>
+                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, suchy papier biurowy.</li>
+                                <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
+                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat i czyściwa, zużytych filtrów (oleju, paliwa), części z aut, puszek po sprayach/zmywaczach czy zużytych sorbentów.</li>
+                                <li>Każdy odpad z napraw odkładaj <strong>tylko do specjalnie oznaczonych pojemników warsztatowych</strong> (zgodnie z BDO).</li>
                             </ul>
                         </div>
 
@@ -340,44 +425,78 @@
             </div>
         </div>
 
-        <!-- TU MOŻESZ DOPISAĆ KOLEJNĄ FISZKĘ KOPIUJĄC BLOK <div class="flashcard-container" id="card-2">... -->
-
     </div>
 
-    <!-- DOLNY PANEL NAWIGACYJNY -->
-    <div class="navigation-bar">
-        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)" disabled>◀ Wstecz</button>
+    <!-- DOLNY PANEL NAWIGACYJNY (widoczny tylko podczas przeglądania fiszek) -->
+    <div class="navigation-bar" id="nav-bar" style="display: none;">
+        <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">◀ Wstecz</button>
         <button class="nav-btn" id="next-btn" onclick="navigate(1)">Dalej ▶</button>
     </div>
 
     <script>
-        let currentCardIndex = 0;
+        let currentCardIndex = -1; // -1 oznacza, że wyświetlane jest menu główne
+        const mainMenu = document.getElementById('main-menu');
         const cards = document.querySelectorAll('.flashcard-container');
+        const navBar = document.getElementById('nav-bar');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
+        const appHeader = document.getElementById('app-header');
 
-        // Funkcja odpowiadająca za obracanie karty przód/tył
+        // Obracanie karty przód/tył
         function flipCard(faceElement) {
-            // Znajduje główny kontener aktualnej fiszki i przełącza klasę 'flipped'
             const container = faceElement.closest('.flashcard-container');
             container.classList.toggle('flipped');
         }
 
-        // Funkcja nawigacji przyciskami Dalej / Wstecz
-        function navigate(direction) {
-            // Ukrywamy obecną kartę i resetujemy jej obrót do stanu początkowego (przód)
-            cards[currentCardIndex].classList.remove('active');
-            cards[currentCardIndex].classList.remove('flipped');
+        // Otwieranie konkretnej fiszki z poziomu menu
+        function openFlashcard(index) {
+            mainMenu.style.display = 'none';
+            navBar.style.display = 'flex';
+            appHeader.innerText = "Ewidencja Warsztatowa — Fiszki";
+            
+            currentCardIndex = index;
+            showCurrentCard();
+        }
 
-            // Zmiana indeksu
-            currentCardIndex += direction;
+        // Powrót do menu głównego
+        function showMenu(event) {
+            if (event) event.stopPropagation(); // Blokuje obrócenie karty podczas kliknięcia w menu
+            
+            // Ukryj karty i pasek nawigacji
+            cards.forEach(card => {
+                card.classList.remove('active');
+                card.classList.remove('flipped');
+            });
+            navBar.style.display = 'none';
+            
+            // Pokaż menu
+            mainMenu.style.display = 'flex';
+            appHeader.innerText = "Ewidencja Warsztatowa — Menu";
+            currentCardIndex = -1;
+        }
 
-            // Pokazujemy nową kartę
-            cards[currentCardIndex].classList.add('active');
+        // Aktualizacja widoku karty i przycisków dolnych
+        function showCurrentCard() {
+            cards.forEach((card, idx) => {
+                card.classList.remove('flipped'); // Reset obrotu poprzedniej karty
+                if (idx === currentCardIndex) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
 
-            // Aktualizacja stanu przycisków na dole ekranu
+            // Blokowanie/odblokowywanie przycisków na skrajnych fiszkach
             prevBtn.disabled = (currentCardIndex === 0);
             nextBtn.disabled = (currentCardIndex === cards.length - 1);
+        }
+
+        // Nawigacja przyciskami Dalej / Wstecz
+        function navigate(direction) {
+            currentCardIndex += direction;
+            if (currentCardIndex >= 0 && currentCardIndex < cards.length) {
+                showCurrentCard();
+            }
         }
     </script>
 
