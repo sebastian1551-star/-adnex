@@ -3,175 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiszki - Mały Zakład Mechaniczny</title>
+    <title>Fiszki Akty Prawne - Mały Zakład Mechaniczny</title>
     <style>
-        :root {
-            --primary-color: #2c3e50;
-            --accent-color: #e74c3c;
-            --bg-color: #ecf0f1;
-            --card-front-bg: #ffffff;
-            --card-back-bg: #34495e;
-            --text-front: #2c3e50;
-            --text-back: #ffffff;
-        }
-
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
+            color: #000000;
+            background-color: #ffffff;
             margin: 0;
-            padding: 40px 20px;
+            padding: 30px 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
         h1 {
-            color: var(--primary-color);
-            margin-bottom: 30px;
+            color: #000000;
+            margin-bottom: 5px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             text-align: center;
-            border-bottom: 3px solid var(--accent-color);
-            padding-bottom: 10px;
+            font-size: 1.6rem;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            margin-bottom: 30px;
+            font-style: italic;
+            color: #333333;
+            text-align: center;
+            font-size: 1rem;
         }
 
         .container {
             display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
-            justify-content: center;
-            max-width: 1200px;
-        }
-
-        /* Styl kontenera fiszki (perspektywa 3D) */
-        .flashcard-wrapper {
-            background-color: transparent;
-            width: 300px;
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        /* Obiekt obracany */
-        .flashcard-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 10px;
-        }
-
-        /* Efekt obrotu po kliknięciu/aktywacji klasy */
-        .flashcard-wrapper.flipped .flashcard-inner {
-            transform: rotateY(180deg);
-        }
-
-        /* Wspólne style dla przodu i tyłu */
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden; /* Wsparcie Safari */
-            backface-visibility: hidden;
-            display: flex;
             flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            gap: 30px;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        /* Struktura Fiszek w wersji czarno-białej (do druku lub nauki) */
+        .flashcard-box {
+            border: 3px solid #000000;
+            background: #ffffff;
             padding: 20px;
+            width: 100%;
             box-sizing: border-box;
-            border-radius: 10px;
         }
 
-        /* Przód fiszki */
-        .card-front {
-            background-color: var(--card-front-bg);
-            color: var(--text-front);
-            border: 2px solid #bdc3c7;
-        }
-
-        .card-front h3 {
-            margin: 0;
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .card-front .hint {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            margin-top: 15px;
-            text-transform: uppercase;
-        }
-
-        /* Tył fiszki */
-        .card-back {
-            background-color: var(--card-back-bg);
-            color: var(--text-back);
-            transform: rotateY(180deg);
-            border: 2px solid var(--card-back-bg);
-        }
-
-        .card-back p {
-            margin: 0;
-            font-size: 1.6rem;
+        .card-header {
+            font-size: 1.3rem;
             font-weight: bold;
-            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
         }
 
-        .card-back .label {
-            font-size: 0.8rem;
-            color: #bdc3c7;
-            margin-bottom: 10px;
+        .side-title {
+            font-size: 0.9rem;
+            font-weight: bold;
             text-transform: uppercase;
+            background: #000000;
+            color: #ffffff;
+            padding: 3px 8px;
+            display: inline-block;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .side-title.front {
+            background: #555555;
+        }
+
+        .law-section {
+            font-size: 0.9rem;
+            border-left: 3px solid #000000;
+            padding-left: 10px;
+            margin: 15px 0;
+        }
+
+        .law-entry {
+            margin-bottom: 10px;
+        }
+
+        .law-title {
+            font-weight: bold;
+        }
+
+        /* KWADRAT Z PRAKTYKĄ - WYRAŹNE CZARNE RAMOWANIE */
+        .practice-square {
+            border: 3px dashed #000000;
+            background-color: #ffffff;
+            padding: 15px;
+            margin-top: 20px;
+        }
+
+        .practice-square-title {
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        ul {
+            margin: 5px 0 10px 0;
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Warsztat - Ważne Dane</h1>
+    <h1>Zestaw Fiszek i Podstaw Prawnych</h1>
+    <div class="subtitle">Gospodarka odpadami — Mały Zakład Mechaniczny</div>
 
     <div class="container">
 
-        <!-- Fiszka 1: BDO -->
-        <div class="flashcard-wrapper" onclick="toggleCard(this)">
-            <div class="flashcard-inner">
-                <div class="card-front">
-                    <h3>Numer rejestrowy BDO</h3>
-                    <div class="hint">Kliknij, aby odkryć</div>
-                </div>
-                <div class="card-back">
-                    <div class="label">BDO:</div>
-                    <p>000159648</p>
-                </div>
-            </div>
+        <div class="flashcard-box">
+            <div class="card-header">Fiszka nr 1: Identyfikacja Podmiotu</div>
+            
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div><strong>Numer rejestrowy BDO</strong> — Mały Zakład Mechaniczny</div>
+            
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            <div>Numer rejestrowy BDO: <strong style="font-size: 1.3rem; letter-spacing: 1px;">000159648</strong></div>
+            <p style="margin: 8px 0 0 0; font-size: 0.95rem;"><em>Pamiętaj: Numer ten musi być umieszczany na dokumentach firmowych (faktury, paragony, karty KPO, ewidencja).</em></p>
         </div>
 
-        <!-- TUTAJ MOŻESZ DOPISYWAĆ KOLEJNE FISZKI, KOPIUJĄC PONIŻSZY SZABLON -->
-        <!-- 
-        <div class="flashcard-wrapper" onclick="toggleCard(this)">
-            <div class="flashcard-inner">
-                <div class="card-front">
-                    <h3>NAZWA (np. NIP firmy)</h3>
-                    <div class="hint">Kliknij, aby odkryć</div>
+
+        <div class="flashcard-box">
+            <div class="card-header">Fiszka nr 2: Odpady Komunalne w Warsztacie</div>
+            
+            <div class="side-title front">Strona 1 (Przód)</div>
+            <div><strong>Odpady komunalne</strong> w nieruchomości niezamieszkałej (warsztat) — Wymogi formalne, segregacja oraz kryteria lokalizacyjne.</div>
+            
+            <div class="side-title">Strona 2 (Tył - Rozwinięcie)</div>
+            
+            <p><strong>Główny wymóg formalny:</strong> Warsztat jako nieruchomość niezamieszkała musi posiadać <strong>umowę na odbiór odpadów komunalnych</strong>. Dostępne są dwie ścieżki:</p>
+            <ul>
+                <li><strong>Umowa z gminą:</strong> W ramach systemu gminnego (jeżeli gmina podjęła uchwałę o objęciu firm systemem zorganizowanym).</li>
+                <li><strong>Umowa prywatna:</strong> Indywidualna umowa z podmiotem prywatnym, który posiada <strong>obowiązkowy wpis do RDR (Rejestru Działalności Regulowanej)</strong> w danej gminie.</li>
+            </ul>
+
+            <p><strong>Na co zwrócić szczególną uwagę w zakładzie (Kontrole):</strong></p>
+            <ul>
+                <li><strong>Bezwzględny zakaz mieszania:</strong> Odpady komunalne (bytowe) nie mogą być mieszane z odpadami niebezpiecznymi i warsztatowymi!</li>
+                <li><strong>Miejsce gromadzenia:</strong> Pojemniki muszą stać na wydzielonym, <strong>utwardzonym podłożu</strong> z zapewnionym dojazdem dla śmieciarek.</li>
+                <li><strong>Przechowywanie umów:</strong> Umowę oraz faktury potwierdzające opłaty za odbiór śmieci należy bezwzględnie trzymać w dokumentacji warsztatu.</li>
+            </ul>
+
+            <p><strong>Wszystkie podstawy prawne i akty:</strong></p>
+            <div class="law-section">
+                <div class="law-entry">
+                    <span class="law-title">• Ustawa o utrzymaniu czystości i porządku w gminach</span> — nakłada na firmę <strong>obowiązek podpisania umowy</strong> na odbiór odpadów i określa zasady działania RDR.
                 </div>
-                <div class="card-back">
-                    <div class="label">ROZWINIĘCIE:</div>
-                    <p>123-456-78-90</p>
+                <div class="law-entry">
+                    <span class="law-title">• Ustawa z 2012 r. o odpadach</span> — definiuje hierarchię i odpowiedzialność za odpady oraz wprowadza <strong>bezwzględny zakaz mieszania odpadów różnych kategorii</strong>.
+                </div>
+                <div class="law-entry">
+                    <span class="law-title">• Ustawa / Rozporządzenie z 2020 r. w sprawie szczegółowych warunków magazynowania odpadów</span> — określa rygorystyczne wymagania dotyczące <strong>zabezpieczania i wydzielania miejsc magazynowania</strong> śmieci.
+                </div>
+                <div class="law-entry">
+                    <span class="law-title">• Ustawa / Rozporządzenie z 2002 r. w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie</span> — wyznacza wymagania techniczne dla miejsc gromadzenia odpadów stałych (<strong>utwardzone podłoże, osłony/wiaty, odległości od okien i dojazd</strong>).
                 </div>
             </div>
+
+            <div class="practice-square">
+                <div class="practice-square-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
+                <ul>
+                    <li><strong>Do kosza na odpady komunalne wrzucaj TYLKO odpady socjalne:</strong> resztki jedzenia, opakowania po kanapkach, butelki po napojach, zużyty papier biurowy.</li>
+                    <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
+                    <li><strong>Kategorycznie OGRANICZ i wyeliminuj trafianie tam:</strong> zaolejonych szmat, czyściwa, zużytych filtrów oleju/paliwa, elementów plastikowych z demontażu aut, puszek po sprayach/zmywaczach oraz zużytych sorbentów.</li>
+                    <li>Wszelkie odpady powstające przy naprawach odkładaj <strong>wyłącznie do oznaczonych, dedykowanych pojemników warsztatowych</strong> (zgodnie z kodami BDO).</li>
+                </ul>
+            </div>
+
         </div>
-         -->
 
     </div>
-
-    <script>
-        // Funkcja odpowiadająca za obracanie fiszki po kliknięciu
-        function toggleCard(card) {
-            card.classList.toggle('flipped');
-        }
-    </script>
 
 </body>
 </html>
