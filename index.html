@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Warsztat - Fiszki BDO i Odpady</title>
+    <title>Protokół Audytowy - Warsztat Otwock</title>
+    <!-- Biblioteka do generowania PDF bezpośrednio w przeglądarce -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         /* Reset i ustawienia bazowe dla urządzeń mobilnych */
         * {
@@ -20,7 +22,7 @@
             height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Blokada przewijania całej strony */
+            overflow: hidden;
         }
 
         /* Nagłówek */
@@ -35,7 +37,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Główny kontener zajmujący dostępną przestrzeń */
+        /* Główny kontener */
         .main-content {
             flex: 1;
             display: flex;
@@ -44,7 +46,7 @@
             padding: 15px;
             background-color: #ffffff;
             position: relative;
-            overflow-y: auto; /* Potrzebne dla przewijania menu na mniejszych ekranach */
+            overflow-y: auto;
         }
 
         /* ================= MENU GŁÓWNE ================= */
@@ -54,7 +56,7 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            align-self: flex-start; /* Pozwala na naturalne przewijanie listy */
+            align-self: flex-start;
             padding: 10px 0;
         }
 
@@ -66,6 +68,24 @@
             margin-bottom: 8px;
             border-bottom: 2px dashed #000000;
             padding-bottom: 8px;
+        }
+
+        /* Karta informacyjna firmy na stronie głównej */
+        .company-info-box {
+            border: 3px solid #000000;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #ffffff;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .company-info-box h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            border-bottom: 2px solid #000000;
+            padding-bottom: 3px;
         }
 
         .menu-item {
@@ -93,12 +113,29 @@
             font-size: 1.1rem;
         }
 
+        .pdf-global-btn {
+            background-color: #000000;
+            color: #ffffff;
+            border: 3px solid #000000;
+            padding: 14px;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 10px;
+            text-align: center;
+        }
+        
+        .pdf-global-btn:active {
+            background-color: #444444;
+        }
+
         /* ================= KONTENER FISZEK ================= */
         .flashcard-container {
             width: 100%;
             height: 100%;
             max-width: 400px;
-            max-height: 520px;
+            max-height: 560px;
             perspective: 1000px;
             display: none; 
         }
@@ -147,7 +184,6 @@
             margin-bottom: 10px;
         }
 
-        /* Przycisk powrotu do menu na karcie */
         .back-to-menu-btn {
             background-color: #000000;
             color: #ffffff;
@@ -163,7 +199,6 @@
             background-color: #444444;
         }
 
-        /* Elementy tekstowe wewnątrz fiszek */
         .side-indicator {
             font-size: 0.75rem;
             font-weight: bold;
@@ -196,12 +231,42 @@
             line-height: 1.4;
         }
 
-        /* Stylizacja paska przewijania */
         .scrollable-content::-webkit-scrollbar {
             width: 4px;
         }
         .scrollable-content::-webkit-scrollbar-thumb {
             background-color: #000000;
+        }
+
+        /* Sekcja Notatek w fiszce */
+        .notes-section {
+            margin-top: 12px;
+            border-top: 2px dashed #000000;
+            padding-top: 10px;
+        }
+
+        .notes-section label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 65px;
+            border: 2px solid #000000;
+            padding: 6px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: none;
+            background-color: #fafafa;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            background-color: #ffffff;
         }
 
         .tap-instruction {
@@ -215,7 +280,6 @@
             text-transform: uppercase;
         }
 
-        /* Wygląd list i sekcji prawnych */
         ul {
             padding-left: 18px;
             margin: 8px 0;
@@ -236,7 +300,6 @@
             margin-bottom: 8px;
         }
 
-        /* Czarno-biały kwadrat praktyki */
         .practice-square {
             border: 3px dashed #000000;
             padding: 12px;
@@ -289,22 +352,40 @@
             background-color: #ffffff;
             cursor: not-allowed;
         }
+
+        /* Ukryty kontener używany wyłącznie do generowania struktury PDF */
+        #pdf-template {
+            display: none;
+        }
     </style>
 </head>
 <body>
 
     <header id="app-header">
-        Ewidencja Warsztatowa — Menu
+        Protokół Audytowy — Menu
     </header>
 
     <div class="main-content">
 
-        <!-- ================= SPIS TREŚCI (MENU STARTOWE) ================= -->
+        <!-- ================= STRONA TYTUŁOWA / MENU STARTOWE ================= -->
         <div class="menu-container" id="main-menu">
+            
+            <div class="company-info-box">
+                <h2>Protokół Audytowy BDO</h2>
+                <p><strong>Podmiot:</strong> Mały Zakład Mechaniczny</p>
+                <p><strong>Audytor/Mechanik:</strong> Piotr Ładnowski</p>
+                <p><strong>Adres:</strong> ul. Batalionów Chłopskich 1</p>
+                <p><strong>Miejscowość:</strong> 05-400 Otwock</p>
+                <p style="margin-top: 8px; font-size: 0.8rem; border-top: 1px dashed #000; padding-top: 5px; font-style: italic;">
+                    Podsumowanie wdrożenia procedur środowiskowych, kontroli rygorów segregacji odpadów komunalnych oraz ewidencji w systemie BDO.
+                </p>
+            </div>
+
             <div class="menu-title">Wybierz temat fiszki</div>
             <button class="menu-item" onclick="openFlashcard(0)">1. Identyfikacja Podmiotu</button>
             <button class="menu-item" onclick="openFlashcard(1)">2. Odpady Komunalne</button>
-            <!-- Tutaj automatycznie dodadzą się kolejne pozycje, jeśli skopiujesz kolejne fiszki -->
+            
+            <button class="pdf-global-btn" onclick="generateAuditPDF()">Pobierz Protokół PDF ⬇</button>
         </div>
 
         <!-- ================= FISZKA 1 ================= -->
@@ -332,13 +413,19 @@
                     </div>
                     <div class="card-title">Dane Rejestrowe</div>
                     <div class="scrollable-content">
-                        <p style="font-size: 1.15rem; text-align: center; margin-top: 20px;">
+                        <p style="font-size: 1.15rem; text-align: center; margin-top: 10px;">
                             Numer rejestrowy BDO:<br>
                             <strong style="font-size: 1.4rem; letter-spacing: 1px;">000159648</strong>
                         </p>
-                        <p style="margin-top: 25px; font-size: 0.9rem; text-align: justify;">
+                        <p style="margin-top: 15px; font-size: 0.9rem; text-align: justify;">
                             <strong>Ważne:</strong> Numer ten musi być bezwzględnie umieszczany na wszystkich dokumentach sporządzanych w związku z prowadzoną działalnością (faktury, paragony fiskalne, karty przekazania odpadów KPO, ewidencja odpadowa).
                         </p>
+                        
+                        <!-- Notatnik lokalny -->
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-0">Twoje Notatki / Uwagi z audytu:</label>
+                            <textarea id="note-0" class="notes-textarea" placeholder="Wpisz np. status pieczątek, faktur..." oninput="saveNote(0)"></textarea>
+                        </div>
                     </div>
                     <div class="tap-instruction">Dotknij kartę, aby obrócić</div>
                 </div>
@@ -393,29 +480,26 @@
 
                         <p style="margin-top: 10px;"><strong>Pełne Podstawy Prawne (Wszystkie Akty):</strong></p>
                         <div class="law-box">
-                            <div class="law-entry">
-                                <strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada <strong>obowiązek zawarcia umowy</strong> na śmieci i reguluje rejestr RDR.
-                            </div>
-                            <div class="law-entry">
-                                <strong>2. Ustawa z dnia 14 grudnia 2012 r. o odpadach</strong> — wprowadza ogólny <strong>zakaz mieszania poszczególnych rodzajów odpadów</strong> i określa odpowiedzialność.
-                            </div>
-                            <div class="law-entry">
-                                <strong>3. Rozporządzenie Ministra Klimatu z dnia 11 września 2020 r. w sprawie szczegółowych warunków magazynowania odpadów</strong> — rygory dotyczące <strong>zabezpieczenia miejsca magazynowania</strong> i etykietowania.
-                            </div>
-                            <div class="law-entry">
-                                <strong>4. Rozporządzenie Ministra Infrastruktury z dnia 12 kwietnia 2002 r. w sprawie warunków technicznych, jakim powinny odpowiadać budynki i ich usytuowanie</strong> — parametry miejsc gromadzenia odpadów (<strong>utwardzenie, wiaty, odległości</strong>).
-                            </div>
+                            <div class="law-entry"><strong>1. Ustawa o utrzymaniu czystości i porządku w gminach</strong> — nakłada obowiązek zawarcia umowy.</div>
+                            <div class="law-entry"><strong>2. Ustawa o odpadach</strong> — wprowadza zakaz mieszania poszczególnych rodzajów odpadów.</div>
+                            <div class="law-entry"><strong>3. Rozp. Min. Klimatu ws. szczegółowych warunków magazynowania odpadów</strong> — rygory zabezpieczenia miejsc.</div>
+                            <div class="law-entry"><strong>4. Rozp. Min. Infrastruktury ws. warunków technicznych budynków</strong> — utwardzenie, wiaty, odległości.</div>
                         </div>
 
                         <!-- KWADRAT Z PRAKTYKĄ DLA MECHANIKA -->
-                        <div class="practice-square" onclick="event.stopPropagation();">
+                        <div class="practice-square">
                             <div class="practice-title">◼ PRAKTYKA — CO MUSI OGRANICZYĆ I OGARNĄĆ MECHANIK!</div>
                             <ul>
-                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach, suchy papier biurowy.</li>
+                                <li><strong>Do kosza na odpady komunalne wrzucaj WYŁĄCZNIE śmieci bytowe/socjalne:</strong> resztki jedzenia, opakowania po śniadaniu, butelki po napojach.</li>
                                 <li><strong>Pojemnik komunalny to NIE jest miejsce na odpady z napraw samochodów!</strong></li>
-                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat i czyściwa, zużytych filtrów (oleju, paliwa), części z aut, puszek po sprayach/zmywaczach czy zużytych sorbentów.</li>
-                                <li>Każdy odpad z napraw odkładaj <strong>tylko do specjalnie oznaczonych pojemników warsztatowych</strong> (zgodnie z BDO).</li>
+                                <li><strong>Bezwzględnie OGRANICZ I WYELIMINUJ trafianie tam:</strong> zaolejonych szmat, filtrów, części, puszek po sprayach.</li>
                             </ul>
+                        </div>
+
+                        <!-- Notatnik lokalny -->
+                        <div class="notes-section" onclick="event.stopPropagation();">
+                            <label for="note-1">Twoje Notatki / Uwagi z audytu:</label>
+                            <textarea id="note-1" class="notes-textarea" placeholder="Wpisz np. nr umowy komunalnej, datę kontroli pojemników..." oninput="saveNote(1)"></textarea>
                         </div>
 
                     </div>
@@ -427,20 +511,25 @@
 
     </div>
 
-    <!-- DOLNY PANEL NAWIGACYJNY (widoczny tylko podczas przeglądania fiszek) -->
+    <!-- DOLNY PANEL NAWIGACYJNY -->
     <div class="navigation-bar" id="nav-bar" style="display: none;">
         <button class="nav-btn" id="prev-btn" onclick="navigate(-1)">◀ Wstecz</button>
         <button class="nav-btn" id="next-btn" onclick="navigate(1)">Dalej ▶</button>
     </div>
 
     <script>
-        let currentCardIndex = -1; // -1 oznacza, że wyświetlane jest menu główne
+        let currentCardIndex = -1; // -1 oznacza menu główne / stronę tytułową
         const mainMenu = document.getElementById('main-menu');
         const cards = document.querySelectorAll('.flashcard-container');
         const navBar = document.getElementById('nav-bar');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const appHeader = document.getElementById('app-header');
+
+        // Wywołanie ładowania notatek przy uruchomieniu aplikacji
+        window.onload = function() {
+            loadAllNotes();
+        };
 
         // Obracanie karty przód/tył
         function flipCard(faceElement) {
@@ -452,7 +541,7 @@
         function openFlashcard(index) {
             mainMenu.style.display = 'none';
             navBar.style.display = 'flex';
-            appHeader.innerText = "Ewidencja Warsztatowa — Fiszki";
+            appHeader.innerText = "Protokół Audytowy — Fiszki";
             
             currentCardIndex = index;
             showCurrentCard();
@@ -460,25 +549,22 @@
 
         // Powrót do menu głównego
         function showMenu(event) {
-            if (event) event.stopPropagation(); // Blokuje obrócenie karty podczas kliknięcia w menu
+            if (event) event.stopPropagation(); 
             
-            // Ukryj karty i pasek nawigacji
             cards.forEach(card => {
                 card.classList.remove('active');
                 card.classList.remove('flipped');
             });
             navBar.style.display = 'none';
-            
-            // Pokaż menu
             mainMenu.style.display = 'flex';
-            appHeader.innerText = "Ewidencja Warsztatowa — Menu";
+            appHeader.innerText = "Protokół Audytowy — Menu";
             currentCardIndex = -1;
         }
 
         // Aktualizacja widoku karty i przycisków dolnych
         function showCurrentCard() {
             cards.forEach((card, idx) => {
-                card.classList.remove('flipped'); // Reset obrotu poprzedniej karty
+                card.classList.remove('flipped'); 
                 if (idx === currentCardIndex) {
                     card.classList.add('active');
                 } else {
@@ -486,7 +572,6 @@
                 }
             });
 
-            // Blokowanie/odblokowywanie przycisków na skrajnych fiszkach
             prevBtn.disabled = (currentCardIndex === 0);
             nextBtn.disabled = (currentCardIndex === cards.length - 1);
         }
@@ -497,6 +582,100 @@
             if (currentCardIndex >= 0 && currentCardIndex < cards.length) {
                 showCurrentCard();
             }
+        }
+
+        // ZAPISYWANIE W PAMIĘCI TELEFONU (localStorage)
+        function saveNote(id) {
+            const textareaValue = document.getElementById(`note-${id}`).value;
+            localStorage.setItem(`warsztat_note_${id}`, textareaValue);
+        }
+
+        // ODCZYTYWANIE Z PAMIĘCI TELEFONU (localStorage)
+        function loadAllNotes() {
+            for (let i = 0; i < cards.length; i++) {
+                const savedValue = localStorage.getItem(`warsztat_note_${i}`);
+                const textarea = document.getElementById(`note-${i}`);
+                if (savedValue && textarea) {
+                    textarea.value = savedValue;
+                }
+            }
+        }
+
+        // GENEROWANIE I EKSPORT CAŁOŚCI DO PLIKU PDF
+        function generateAuditPDF() {
+            // Pobieranie aktualnych wartości z pól tekstowych
+            const note0Text = document.getElementById('note-0').value || "Brak uwag.";
+            const note1Text = document.getElementById('note-1').value || "Brak uwag.";
+
+            // Budowanie struktury wizualnej dokumentu do wydruku PDF
+            const pdfContainer = document.createElement('div');
+            pdfContainer.style.padding = '30px';
+            pdfContainer.style.fontFamily = 'Arial, sans-serif';
+            pdfContainer.style.color = '#000000';
+            pdfContainer.style.lineHeight = '1.5';
+
+            pdfContainer.innerHTML = `
+                <div style="text-align: center; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 30px;">
+                    <h1 style="text-transform: uppercase; margin-bottom: 5px; font-size: 24px;">Oficjalny Protokół Audytowy BDO</h1>
+                    <p style="font-style: italic; font-size: 14px;">Generowany automatycznie z systemu aplikacji ewidencji warsztatowej</p>
+                </div>
+
+                <div style="border: 2px solid #000; padding: 20px; margin-bottom: 30px; background-color: #f9f9f9;">
+                    <h2 style="text-transform: uppercase; font-size: 16px; border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 10px;">Dane Podmiotu Kontrolowanego</h2>
+                    <table style="width: 100%; font-size: 14px; border-collapse: collapse;">
+                        <tr><td style="padding: 4px 0; width: 40%;"><strong>Nazwa firmy:</strong></td><td>Mały Zakład Mechaniczny</td></tr>
+                        <tr><td style="padding: 4px 0;"><strong>Właściciel / Mechanik:</strong></td><td>Piotr Ładnowski</td></tr>
+                        <tr><td style="padding: 4px 0;"><strong>Adres działalności:</strong></td><td>ul. Batalionów Chłopskich 1</td></tr>
+                        <tr><td style="padding: 4px 0;"><strong>Miejscowość:</strong></td><td>05-400 Otwock</td></tr>
+                        <tr><td style="padding: 4px 0;"><strong>Data sporządzenia:</strong></td><td>${new Date().toLocaleDateString('pl-PL')} r.</td></tr>
+                    </table>
+                </div>
+
+                <div style="margin-bottom: 25px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 14px; background: #000; color: #fff; padding: 6px 10px;">1. Sekcja: Identyfikacja Podmiotu (BDO)</h3>
+                    <div style="padding: 10px 5px; font-size: 14px;">
+                        <p><strong>Zweryfikowany Numer Rejestrowy BDO:</strong> <span style="font-size: 16px; font-weight: bold; letter-spacing: 1px;">000159648</span></p>
+                        <p style="margin-top: 5px; font-size: 13px; color: #333;">Wymóg prawny: Umieszczanie numeru BDO na dokumentach firmowych, fakturach i kartach KPO.</p>
+                        <div style="margin-top: 10px; background: #f2f2f2; border-left: 4px solid #000; padding: 10px;">
+                            <strong style="font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px;">Wprowadzone Notatki / Zalecenia z Audytu:</strong>
+                            <p style="white-space: pre-wrap; font-size: 13px;">${note0Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 25px; page-break-inside: avoid;">
+                    <h3 style="text-transform: uppercase; font-size: 14px; background: #000; color: #fff; padding: 6px 10px;">2. Sekcja: Gospodarka Odpadami Komunalnymi</h3>
+                    <div style="padding: 10px 5px; font-size: 14px;">
+                        <p><strong>Status formalny:</strong> Obowiązek posiadania aktualnej umowy na śmieci komunalne/bytowe (System gminny lub umowa indywidualna z podmiotem w RDR).</p>
+                        <p style="margin-top: 5px;"><strong>Kluczowe rygory techniczne:</strong></p>
+                        <ul style="margin: 5px 0 10px 20px; font-size: 13px;">
+                            <li>Całkowity zakaz wrzucania odpadów warsztatowych/niebezpiecznych do komunalnych.</li>
+                            <li>Wymóg utwardzonego podłoża i zabezpieczenia wiaty kontenerowej.</li>
+                        </ul>
+                        <div style="margin-top: 10px; background: #f2f2f2; border-left: 4px solid #000; padding: 10px;">
+                            <strong style="font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px;">Wprowadzone Notatki / Zalecenia z Audytu:</strong>
+                            <p style="white-space: pre-wrap; font-size: 13px;">${note1Text}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 50px; text-align: center; font-size: 12px; border-top: 1px solid #ccc; padding-top: 15px;">
+                    <p>Protokół sporządzony na urządzeniu mobilnym przez podmiot nadzorujący gospodarkę odpadową.</p>
+                    <p><strong>Podpis audytora:</strong> ......................................................</p>
+                </div>
+            `;
+
+            // Konfiguracja konwertera html2pdf
+            const options = {
+                margin:       10,
+                filename:     'Protokol_Audytowy_Warsztat_Otwock.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+
+            // Wywołanie procesu pobierania pliku
+            html2pdf().set(options).from(pdfContainer).save();
         }
     </script>
 
